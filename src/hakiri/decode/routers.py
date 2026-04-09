@@ -1,9 +1,13 @@
-"""known router and aggregator addresses."""
+"""known router and aggregator addresses.
+
+used to identify the entry point of a swap. helps the classifier
+distinguish user trades (entered via uniswap router / 1inch / cowswap)
+from raw searcher trades (entered via custom contracts).
+"""
 
 from __future__ import annotations
 
 from typing import Dict
-
 
 KNOWN_ROUTERS: Dict[str, str] = {
     "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D": "uniswap-v2-router",
@@ -14,6 +18,7 @@ KNOWN_ROUTERS: Dict[str, str] = {
     "0x111111125421cA6dc452d289314280a0f8842A65": "1inch-v6",
     "0x9008D19f58AAbD9eD0D60971565AA8510560ab41": "cowswap-vault",
     "0xDef1C0ded9bec7F1a1670819833240f027b25EfF": "0x-exchange-proxy",
+    "0xBA12222222228d8Ba445958a75a0704d566BF2C8": "balancer-v2-vault",
 }
 
 
