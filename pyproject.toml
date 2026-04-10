@@ -4,12 +4,28 @@ build-backend = "hatchling.build"
 
 [project]
 name = "hakiri"
-version = "0.0.1"
+version = "0.0.2"
 description = "ethereum mev forensics agent"
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.9"
 authors = [{ name = "hakiri" }]
+dependencies = [
+  "typer>=0.9.0",
+  "rich>=13.0.0",
+  "httpx>=0.25.0",
+  "pydantic>=2.5.0",
+  "pydantic-settings>=2.1.0",
+  "structlog>=24.1.0",
+  "eth-utils>=4.0.0",
+  "eth-abi>=5.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+  "ruff>=0.5",
+]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/hakiri"]
