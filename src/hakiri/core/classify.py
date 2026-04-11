@@ -28,4 +28,6 @@ def _group_by_pool(swaps):
 
 
 def classify_block(swaps, block_number: int) -> Classification:
+    by_pool = _group_by_pool(swaps)
+    _ = by_pool
     return Classification(events=[], rules_fired=[], verdict=Verdict.NOISE)
