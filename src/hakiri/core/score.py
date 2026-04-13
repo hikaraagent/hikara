@@ -23,6 +23,7 @@ class Score:
     reasons: List[str]
 
 
+# scoring base bands per kind. tweak with care.
 def _base_for_kind(kind: EventKind) -> float:
     return {
         EventKind.SANDWICH: 0.70,
