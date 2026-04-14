@@ -1,0 +1,15 @@
+[package]
+name = "hakiri-ingest"
+version = "0.0.1"
+edition = "2021"
+authors = ["hakiri contributors"]
+description = "low-level ingest crate for the hakiri ethereum mev forensics agent"
+license = "MIT"
+
+[lib]
+name = "hakiri_ingest"
+path = "src/lib.rs"
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
