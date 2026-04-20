@@ -1,4 +1,7 @@
-"""runtime configuration. reads from env. nothing required to demo."""
+"""runtime configuration.
+
+reads from env. nothing required to demo. all keys optional.
+"""
 
 from __future__ import annotations
 
