@@ -21,5 +21,17 @@ def version() -> None:
     Console().print(f"hakiri {__version__}")
 
 
+@app.command()
+def scan(once: bool = typer.Option(False, "--once")) -> None:
+    """run the live scanner."""
+    Console().print("scan stub")
+
+
+@app.command()
+def investigate(target: str = typer.Argument(...)) -> None:
+    """investigate a tx hash or block number."""
+    Console().print(f"investigate stub: {target}")
+
+
 if __name__ == "__main__":
     app()
