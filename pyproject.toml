@@ -35,5 +35,22 @@ Homepage = "https://github.com/hakiriagent/hakiri"
 Source = "https://github.com/hakiriagent/hakiri"
 Issues = "https://github.com/hakiriagent/hakiri/issues"
 
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "N", "C4", "SIM", "RUF"]
+ignore = ["UP045", "UP007", "UP006", "UP035", "E501", "B008"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["B011"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+addopts = "-q --strict-markers"
+
 [tool.hatch.build.targets.wheel]
 packages = ["src/hakiri"]
