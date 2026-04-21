@@ -27,5 +27,13 @@ dev = [
   "ruff>=0.5",
 ]
 
+[project.scripts]
+hakiri = "hakiri.cli:app"
+
+[project.urls]
+Homepage = "https://github.com/hakiriagent/hakiri"
+Source = "https://github.com/hakiriagent/hakiri"
+Issues = "https://github.com/hakiriagent/hakiri/issues"
+
 [tool.hatch.build.targets.wheel]
 packages = ["src/hakiri"]
