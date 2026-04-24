@@ -1,0 +1,35 @@
+*                                       @hakiriagent
+
+# python core
+/src/hakiri/__init__.py                 @hakiriagent
+/src/hakiri/config.py                   @hakiriagent
+/src/hakiri/cli.py                      @hakiriagent @luka
+/src/hakiri/core/                       @hakiriagent @mikrohash
+/src/hakiri/decode/                     @luka
+/src/hakiri/enrich/builder.py           @0xnova @hakiriagent
+/src/hakiri/enrich/searcher.py          @mikrohash @hakiriagent
+/src/hakiri/enrich/coinbase.py          @0xnova
+/src/hakiri/ingest/                     @0xnova
+/src/hakiri/output/                     @luka
+/src/hakiri/demo/                       @luka @hakiriagent
+/src/hakiri/ai/                         @mikrohash @hakiriagent
+
+# rust crate
+/ingest-rs/                             @0xnova
+/ingest-rs/src/bundle.rs                @0xnova @mikrohash
+
+# tests
+/tests/                                 @hakiriagent
+/tests/test_classify.py                 @mikrohash
+/tests/test_decode.py                   @luka
+/tests/test_output.py                   @luka
+
+# docs and infra
+/.github/                               @hakiriagent
+/docs/                                  @hakiriagent
+/README.md                              @hakiriagent
+/CONTRIBUTING.md                        @hakiriagent
+/CHANGELOG.md                           @hakiriagent
+/ROADMAP.md                             @hakiriagent
+/MAINTAINERS.md                         @hakiriagent
+/SECURITY.md                            @hakiriagent
