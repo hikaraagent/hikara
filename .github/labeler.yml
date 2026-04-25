@@ -1,0 +1,45 @@
+python:
+  - changed-files:
+    - any-glob-to-any-file:
+      - "src/hakiri/**"
+      - "tests/**"
+      - "pyproject.toml"
+
+rust:
+  - changed-files:
+    - any-glob-to-any-file:
+      - "ingest-rs/**"
+
+ci:
+  - changed-files:
+    - any-glob-to-any-file:
+      - ".github/**"
+      - ".pre-commit-config.yaml"
+
+docs:
+  - changed-files:
+    - any-glob-to-any-file:
+      - "README.md"
+      - "docs/**"
+      - "CONTRIBUTING.md"
+      - "CHANGELOG.md"
+      - "ROADMAP.md"
+      - "MAINTAINERS.md"
+      - "SECURITY.md"
+
+decode:
+  - changed-files:
+    - any-glob-to-any-file:
+      - "src/hakiri/decode/**"
+
+ingest:
+  - changed-files:
+    - any-glob-to-any-file:
+      - "src/hakiri/ingest/**"
+      - "ingest-rs/**"
+
+classify:
+  - changed-files:
+    - any-glob-to-any-file:
+      - "src/hakiri/core/classify.py"
+      - "src/hakiri/core/score.py"
