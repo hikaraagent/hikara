@@ -36,6 +36,7 @@ def decode_v3_swap(log: Dict[str, Any]) -> Optional[Dict[str, Any]]:
     except (ValueError, OverflowError):
         return None
 
+    # malformed pools have been seen with both positive amounts; drop them.
     if amount0 > 0 and amount1 < 0:
         amount_in, amount_out, side = amount0, -amount1, "0->1"
     elif amount1 > 0 and amount0 < 0:
