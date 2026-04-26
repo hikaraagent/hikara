@@ -9,6 +9,8 @@ KNOWN_BUILDERS: Dict[str, str] = {
     "0x690B9A9E9aa1C9dB991C7721a92d351Db4FaC990": "builder0x69",
     "0xE8DDAd86796E7416c0E62D1Bf90e54a4C2Dabd28": "rsync-builder",
     "0x95222290DD7278Aa3Ddd389Cc1E1d165CC4BAfe5": "beaverbuild",
+    "0x4838B106FCe9647Bdf1E7877BF73cE8B0BAD5f97": "titan-builder",
+    "0xDAFEA492D9c6733ae3d56b7Ed1ADB60692c98Bc5": "flashbots-builder",
 }
 
 
