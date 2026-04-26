@@ -17,7 +17,6 @@ from hakiri.core.types import Event
 class JsonlSink:
     def __init__(self, path: Union[str, Path]) -> None:
         self.path = Path(path)
-        # callers may pass a path under a non-existent dir.
         self.path.parent.mkdir(parents=True, exist_ok=True)
 
     def emit(self, event: Event, score: Score) -> None:
