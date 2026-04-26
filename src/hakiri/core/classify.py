@@ -127,6 +127,7 @@ def _detect_backruns(swaps: List[SwapTx], block_number: int) -> List[Event]:
     return events
 
 
+# swaps may arrive out-of-order from rpc; sort defensively.
 def classify_block(swaps: List[SwapTx], block_number: int) -> Classification:
     """run all heuristics over a block's swaps. returns events + which rules fired."""
     rules: List[str] = []
