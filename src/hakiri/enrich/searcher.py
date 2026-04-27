@@ -10,6 +10,7 @@ KNOWN_SEARCHERS: Dict[str, str] = {
     "0x00000000003b3cc22aF3aE1EAc0440BcEe416B40": "rsync-builder-bot",
     "0x000000000035B5e5ad9019092C665357240f594e": "txhub-router",
     "0x0000000099cb7fc48a935bcefa0A3A04d6502B43": "atomic-arb-1",
+    "0x6b75d8AF000000e20B7a7DDf000Ba900b4009A80": "jaredfromsubway-2",
 }
 
 
