@@ -8,6 +8,8 @@ that is referenced from docs/heuristics.md. when a rule fires, its name
 is appended to event.notes for traceability.
 
 this module is pure. no rpc, no clock, no io.
+
+shipped rules: SAND-01, BACK-01.
 """
 
 from __future__ import annotations
