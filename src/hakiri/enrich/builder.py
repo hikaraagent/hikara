@@ -11,6 +11,7 @@ KNOWN_BUILDERS: Dict[str, str] = {
     "0x95222290DD7278Aa3Ddd389Cc1E1d165CC4BAfe5": "beaverbuild",
     "0x4838B106FCe9647Bdf1E7877BF73cE8B0BAD5f97": "titan-builder",
     "0xDAFEA492D9c6733ae3d56b7Ed1ADB60692c98Bc5": "flashbots-builder",
+    "0x1f9090aaE28b8a3dCeaDf281B0F12828e676c326": "rsync-2",
 }
 
 
