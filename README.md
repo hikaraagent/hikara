@@ -205,6 +205,8 @@ hakiri/
 
 ## roadmap
 
+<!-- ships in order. nothing is 'soon'. if it is not in the repo it does not exist. -->
+
 | version | scope                                                                        | status  |
 |---------|------------------------------------------------------------------------------|:-------:|
 | v0.1    | sandwich + backrun rules. uniswap v2/v3 decode. demo + cli.                  | shipped |
