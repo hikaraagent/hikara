@@ -1,7 +1,14 @@
 [package]
 name = "hakiri-ingest"
-version = "0.0.1"
+version = "0.1.0"
 edition = "2021"
+authors = ["hakiri contributors"]
+description = "low-level ingest crate for the hakiri ethereum mev forensics agent"
+license = "MIT"
+repository = "https://github.com/hakiriagent/hakiri"
+readme = "README.md"
+keywords = ["ethereum", "mev", "mempool", "forensics"]
+categories = ["cryptography::cryptocurrencies"]
 authors = ["hakiri contributors"]
 description = "low-level ingest crate for the hakiri ethereum mev forensics agent"
 license = "MIT"
