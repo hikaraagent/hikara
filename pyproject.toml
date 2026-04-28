@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "hakiri"
-version = "0.0.2"
+version = "0.1.0"
 description = "ethereum mev forensics agent"
 readme = "README.md"
 license = { text = "MIT" }
