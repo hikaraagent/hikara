@@ -54,7 +54,7 @@ dev = [
 hakiri = "hakiri.cli:app"
 
 [project.urls]
-Homepage = "https://github.com/hakiriagent/hakiri"
+Homepage = "https://hakiri.xyz/"
 Source = "https://github.com/hakiriagent/hakiri"
 Issues = "https://github.com/hakiriagent/hakiri/issues"
 
