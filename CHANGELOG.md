@@ -16,8 +16,6 @@ all notable changes ship here. format follows [keep a changelog](https://keepach
 
 ## [0.1.0] - 2026-04-25
 
-<!-- shipped on this date. release notes mirror this section. -->
-
 ### added
 - core types: `Event`, `Bundle`, `SwapTx`, `Victim`, `Verdict`
 - sandwich detector (SAND-01) and one-step backrun detector (BACK-01)
