@@ -5,26 +5,49 @@ build-backend = "hatchling.build"
 [project]
 name = "hakiri"
 version = "0.1.0"
-description = "ethereum mev forensics agent"
+description = "ethereum mev forensics agent. read-only. shows what got taken from you in the dark."
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.9"
 authors = [{ name = "hakiri" }]
+keywords = ["ethereum", "mev", "sandwich", "forensics", "mempool", "flashbots", "agent"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Financial and Insurance Industry",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Security",
+  "Topic :: Software Development :: Libraries",
+]
 dependencies = [
   "typer>=0.9.0",
   "rich>=13.0.0",
   "httpx>=0.25.0",
   "pydantic>=2.5.0",
   "pydantic-settings>=2.1.0",
+  "eval-type-backport>=0.2.0;python_version<'3.10'",
   "structlog>=24.1.0",
+  "websockets>=12.0",
   "eth-utils>=4.0.0",
   "eth-abi>=5.0.0",
+  "eth-hash[pycryptodome]>=0.7.0",
+  "anthropic>=0.40.0",
+  "pyyaml>=6.0.1",
 ]
 
 [project.optional-dependencies]
 dev = [
   "pytest>=8.0",
+  "pytest-asyncio>=0.23",
   "ruff>=0.5",
+  "mypy>=1.8",
+  "respx>=0.21",
 ]
 
 [project.scripts]
@@ -34,6 +57,9 @@ hakiri = "hakiri.cli:app"
 Homepage = "https://github.com/hakiriagent/hakiri"
 Source = "https://github.com/hakiriagent/hakiri"
 Issues = "https://github.com/hakiriagent/hakiri/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/hakiri"]
 
 [tool.ruff]
 line-length = 100
@@ -52,5 +78,8 @@ testpaths = ["tests"]
 asyncio_mode = "auto"
 addopts = "-q --strict-markers"
 
-[tool.hatch.build.targets.wheel]
-packages = ["src/hakiri"]
+[tool.mypy]
+python_version = "3.9"
+strict_optional = true
+warn_unused_ignores = true
+ignore_missing_imports = true
