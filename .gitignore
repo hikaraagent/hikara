@@ -38,6 +38,6 @@ htmlcov/
 out/
 fixtures/cache/
 
-# local
+# local — never committed; user output lands here
 scratch/
 todo.md
