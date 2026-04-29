@@ -9,9 +9,6 @@ repository = "https://github.com/hakiriagent/hakiri"
 readme = "README.md"
 keywords = ["ethereum", "mev", "mempool", "forensics"]
 categories = ["cryptography::cryptocurrencies"]
-authors = ["hakiri contributors"]
-description = "low-level ingest crate for the hakiri ethereum mev forensics agent"
-license = "MIT"
 
 [lib]
 name = "hakiri_ingest"
