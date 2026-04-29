@@ -2,6 +2,25 @@
 
 all notable changes ship here. format follows [keep a changelog](https://keepachangelog.com).
 
+## [0.1.1] - 2026-04-30
+
+### added
+- top-level `--version` / `-V` flag on the cli for fast version checks
+- banner asset at `assets/bannerhakiri.jpg` referenced from the readme
+- twitter, telegram, and website badges on the readme
+
+### changed
+- project homepage now points to https://hakiri.xyz/ (pyproject + repo metadata)
+- ascii wordmark dropped from readme; the banner already shows it
+
+### fixed
+- ruff import order in `enrich/searcher.py` and `enrich/builder.py`
+- duplicate `authors` / `description` / `license` keys in `ingest-rs/Cargo.toml`
+
+### honest status
+
+still a v0.1.x patch. live mempool ingest is the v0.2 work. no new heuristics shipped in this release.
+
 ## [unreleased]
 
 ### added
@@ -54,5 +73,6 @@ what's not done in 0.1.0:
 
 read-only by design. no wallet, no signer, no executor.
 
-[unreleased]: https://github.com/hakiriagent/hakiri/compare/v0.1.0...HEAD
+[unreleased]: https://github.com/hakiriagent/hakiri/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/hakiriagent/hakiri/releases/tag/v0.1.1
 [0.1.0]: https://github.com/hakiriagent/hakiri/releases/tag/v0.1.0

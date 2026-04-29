@@ -1,6 +1,6 @@
 [package]
 name = "hakiri-ingest"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 authors = ["hakiri contributors"]
 description = "low-level ingest crate for the hakiri ethereum mev forensics agent"
