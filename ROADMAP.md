@@ -11,6 +11,8 @@ ships in order. each version closes the door on the previous one. nothing is "so
 
 ## v0.2 - in flight
 
+<!-- mempool ingest moves into the rust crate via pyo3. python keeps the api stable. -->
+
 - wire `ingest-rs` via pyo3 so live mempool actually runs
 - jit liquidity heuristic (JIT-01)
 - atomic multi-hop arb heuristic (ARB-01)
