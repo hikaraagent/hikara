@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/bannerhakiri.jpg" alt="hakiri ethereum mev forensics agent" width="100%" />
+<img src="assets/bannerhakiri.jpg" alt="hakiri" width="100%" />
 
 ```
             ██╗  ██╗ █████╗ ██╗  ██╗██╗██████╗ ██╗
