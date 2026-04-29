@@ -118,8 +118,6 @@ new rules ship behind a version, not a feature flag. the repo is the source of t
 
 ## quickstart
 
-<!-- read-only by design. no wallet, no signer, no executor. -->
-
 requires python 3.9+ and rust stable.
 
 ```sh
