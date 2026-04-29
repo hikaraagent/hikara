@@ -37,7 +37,6 @@ def run_demo_investigate() -> None:
     for ev in result.events:
         s = score_event(ev)
         c.print(f"  {ev.kind.value} block {ev.block_number}")
-        # markup=False so SAND-01 ids are not interpreted as rich tags.
         for r in s.reasons:
             c.print(f"    {r}", markup=False)
         c.print(f"    -> verdict={s.verdict.value} conf={s.confidence:.3f}")
