@@ -8,7 +8,6 @@ from __future__ import annotations
 
 from hakiri.core.classify import classify_block
 from hakiri.core.score import score_event
-# fixture is the canonical sandwich block used in tests.
 from hakiri.demo.scan import fixture_swaps
 from hakiri.output.stdout import StdoutSink
 
