@@ -52,6 +52,7 @@ def scan(
     """run the live scanner. requires HAKIRI_WS_URL or HAKIRI_HTTP_URL."""
     settings = load()
     console = Console()
+    # without rpc, fall through to the offline demo so the cli is never silent.
     if not settings.has_rpc:
         console.print(
             "[yellow]no rpc configured. set HAKIRI_WS_URL or HAKIRI_HTTP_URL.[/yellow]"
