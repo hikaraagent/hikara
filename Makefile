@@ -2,7 +2,6 @@
 
 PY ?= python3
 
-# requires python 3.9+ and pip
 install:
 	$(PY) -m pip install -e '.[dev]'
 
