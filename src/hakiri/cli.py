@@ -31,6 +31,27 @@ demo_app = typer.Typer(
 app.add_typer(demo_app, name="demo")
 
 
+def _version_callback(value: bool) -> None:
+    if value:
+        Console().print(f"hakiri {__version__}")
+        raise typer.Exit()
+
+
+@app.callback()
+def _main(
+    version: bool = typer.Option(
+        None,
+        "--version",
+        "-V",
+        callback=_version_callback,
+        is_eager=True,
+        help="print version and exit.",
+    ),
+) -> None:
+    """ethereum mev forensics agent. read-only by design."""
+    _ = version
+
+
 @app.command()
 def version() -> None:
     """print version + build info."""
