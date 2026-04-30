@@ -4,13 +4,13 @@ build-backend = "hatchling.build"
 
 [project]
 name = "hakiri"
-version = "0.1.1"
-description = "ethereum mev forensics agent. read-only. shows what got taken from you in the dark."
+version = "0.2.0"
+description = "solana mev forensics agent. read-only. shows what got taken from you in the dark."
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.9"
 authors = [{ name = "hakiri" }]
-keywords = ["ethereum", "mev", "sandwich", "forensics", "mempool", "flashbots", "agent"]
+keywords = ["solana", "mev", "sandwich", "forensics", "mempool", "jito", "raydium", "orca", "agent"]
 classifiers = [
   "Development Status :: 3 - Alpha",
   "Intended Audience :: Developers",
@@ -34,9 +34,7 @@ dependencies = [
   "eval-type-backport>=0.2.0;python_version<'3.10'",
   "structlog>=24.1.0",
   "websockets>=12.0",
-  "eth-utils>=4.0.0",
-  "eth-abi>=5.0.0",
-  "eth-hash[pycryptodome]>=0.7.0",
+  "based58>=0.1.1",
   "anthropic>=0.40.0",
   "pyyaml>=6.0.1",
 ]
