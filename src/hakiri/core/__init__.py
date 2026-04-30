@@ -1,6 +1,6 @@
 """core types, classifier, scorer."""
 
-from hakiri.core.classify import Classification, classify_block
+from hakiri.core.classify import Classification, classify_block, classify_slot
 from hakiri.core.score import Score, score_event
 from hakiri.core.types import (
     Bundle,
@@ -21,5 +21,6 @@ __all__ = [
     "Verdict",
     "Victim",
     "classify_block",
+    "classify_slot",
     "score_event",
 ]
