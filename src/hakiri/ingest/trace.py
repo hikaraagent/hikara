@@ -1,14 +1,13 @@
 """block tracer.
 
-three modes:
-  - debug: debug_traceblockbynumber (geth/erigon). full call tree, expensive.
-  - parity: trace_block (parity-style nodes, openethereum). cheap, partial.
-  - rpc: eth_getlogs only. no internal txs. covers ~80% of dex mev.
+solana exposes the same data via two rpc patterns:
+  - getBlock (with full transactions): canonical, slow.
+  - getTransaction (per signature): used to enrich a single tx.
+  - geyser stream (via ingest-rs): low-latency, subscription-based.
 
-selects based on settings.trace_mode. stub here, real implementation
-follows in v0.2.
+selects based on settings. stub here, real implementation follows in v0.3.
 
-TODO(0xnova): wire all three trace modes. tracking issue: #21.
+TODO(0xnova): wire all three modes. tracking issue: #21.
 """
 
 from __future__ import annotations
@@ -16,25 +15,26 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import List, Literal
 
-TraceMode = Literal["debug", "parity", "rpc"]
+
+TraceMode = Literal["getblock", "geyser", "shredstream"]
 
 
 @dataclass
 class TracedTx:
-    tx_hash: str
+    signature: str
     sender: str
-    to: str
-    coinbase_transfer_wei: int = 0
-    internal_calls: int = 0
+    slot: int
+    jito_tip_lamports: int = 0
+    inner_ix_count: int = 0
 
 
-async def trace_block(
-    http_url: str, block_number: int, mode: TraceMode = "rpc"
+async def trace_slot(
+    rpc_url: str, slot: int, mode: TraceMode = "getblock"
 ) -> List[TracedTx]:
-    """fetch block trace in the requested mode.
+    """fetch slot trace in the requested mode.
 
     stub returns an empty list. real implementation switches on `mode`
     and constructs the rpc payload.
     """
-    _ = http_url, block_number, mode
+    _ = rpc_url, slot, mode
     return []
