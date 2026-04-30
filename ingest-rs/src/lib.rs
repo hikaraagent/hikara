@@ -1,7 +1,11 @@
 //! hakiri-ingest
 //!
 //! low-level ingest types and classifiers used by hakiri. kept minimal
-//! and dependency-light. python core calls into this via pyo3 in v0.2.
+//! and dependency-light. python core calls into this via pyo3 in a
+//! later release.
+//!
+//! solana semantics: signatures (base58), pubkeys (base58), slots,
+//! lamports, jito tips. eth-era types removed in v0.2.
 
 #![forbid(unsafe_code)]
 #![deny(rust_2018_idioms)]
@@ -11,7 +15,7 @@ pub mod mempool;
 pub mod trace;
 
 pub use bundle::{classify_sandwich, Bundle, BundleClassification, SwapLeg};
-pub use mempool::PendingTx;
+pub use mempool::{PendingTx, StreamedTx};
 pub use trace::{TraceMode, TracedTx};
 
 /// crate version. matches Cargo.toml.
