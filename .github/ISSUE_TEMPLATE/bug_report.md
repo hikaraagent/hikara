@@ -26,5 +26,5 @@ labels: bug
 **version**
 
 ```
-hakiri version
+hikara version
 ```

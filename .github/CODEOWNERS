@@ -1,18 +1,18 @@
 *                                       @hakiriagent
 
 # python core
-/src/hakiri/__init__.py                 @hakiriagent
-/src/hakiri/config.py                   @hakiriagent
-/src/hakiri/cli.py                      @hakiriagent @luka
-/src/hakiri/core/                       @hakiriagent @mikrohash
-/src/hakiri/decode/                     @luka
-/src/hakiri/enrich/leader.py            @0xnova @hakiriagent
-/src/hakiri/enrich/searcher.py          @mikrohash @hakiriagent
-/src/hakiri/enrich/jito.py              @0xnova
-/src/hakiri/ingest/                     @0xnova
-/src/hakiri/output/                     @luka
-/src/hakiri/demo/                       @luka @hakiriagent
-/src/hakiri/ai/                         @mikrohash @hakiriagent
+/src/hikara/__init__.py                 @hakiriagent
+/src/hikara/config.py                   @hakiriagent
+/src/hikara/cli.py                      @hakiriagent @luka
+/src/hikara/core/                       @hakiriagent @mikrohash
+/src/hikara/decode/                     @luka
+/src/hikara/enrich/leader.py            @0xnova @hakiriagent
+/src/hikara/enrich/searcher.py          @mikrohash @hakiriagent
+/src/hikara/enrich/jito.py              @0xnova
+/src/hikara/ingest/                     @0xnova
+/src/hikara/output/                     @luka
+/src/hikara/demo/                       @luka @hakiriagent
+/src/hikara/ai/                         @mikrohash @hakiriagent
 
 # rust crate
 /ingest-rs/                             @0xnova

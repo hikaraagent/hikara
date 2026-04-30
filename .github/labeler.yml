@@ -1,7 +1,7 @@
 python:
   - changed-files:
     - any-glob-to-any-file:
-      - "src/hakiri/**"
+      - "src/hikara/**"
       - "tests/**"
       - "pyproject.toml"
 
@@ -30,16 +30,16 @@ docs:
 decode:
   - changed-files:
     - any-glob-to-any-file:
-      - "src/hakiri/decode/**"
+      - "src/hikara/decode/**"
 
 ingest:
   - changed-files:
     - any-glob-to-any-file:
-      - "src/hakiri/ingest/**"
+      - "src/hikara/ingest/**"
       - "ingest-rs/**"
 
 classify:
   - changed-files:
     - any-glob-to-any-file:
-      - "src/hakiri/core/classify.py"
-      - "src/hakiri/core/score.py"
+      - "src/hikara/core/classify.py"
+      - "src/hikara/core/score.py"

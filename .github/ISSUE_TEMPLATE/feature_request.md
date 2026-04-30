@@ -1,6 +1,6 @@
 ---
 name: feature request
-about: a new capability you want hakiri to ship
+about: a new capability you want hikara to ship
 labels: enhancement
 ---
 
@@ -15,7 +15,7 @@ labels: enhancement
 **what it is not**
 
 <!-- explicitly out-of-scope work that this feature should not creep into.
-     hakiri stays read-only. no wallets, no signing, no trading. -->
+     hikara stays read-only. no wallets, no signing, no trading. -->
 
 **roadmap fit**
 
