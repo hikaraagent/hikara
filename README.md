@@ -12,7 +12,6 @@ read-only by design. shows what got taken from you in the dark.
 [![CI](https://img.shields.io/badge/ci-pytest%20%2B%20cargo-success.svg)](.github/workflows/ci.yml)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 [![X / Twitter](https://img.shields.io/badge/x-@HakiriAgent-000000.svg)](https://x.com/HakiriAgent)
-[![Telegram](https://img.shields.io/badge/telegram-hakirieth-26A5E4.svg)](https://t.me/hakirieth)
 [![Website](https://img.shields.io/badge/site-hakiri.xyz-white.svg)](https://hakiri.xyz/)
 
 [![Solana](https://img.shields.io/badge/chain-solana-9945FF.svg)]()
