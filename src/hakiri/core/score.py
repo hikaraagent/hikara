@@ -40,9 +40,9 @@ def score_event(event: Event) -> Score:
     score = _base_for_kind(event.kind)
     reasons.append(f"base[{event.kind.value}]={score:.2f}")
 
-    if event.coinbase_transfer_wei > 0:
+    if event.jito_tip_lamports > 0:
         score += 0.10
-        reasons.append("coinbase_transfer>0:+0.10")
+        reasons.append("jito_tip>0:+0.10")
 
     if event.bundle and len(event.bundle.txs) >= 2:
         score += 0.05
@@ -52,9 +52,9 @@ def score_event(event: Event) -> Score:
         score += 0.05
         reasons.append("victims_present:+0.05")
 
-    if event.searcher and event.searcher == event.builder:
+    if event.searcher and event.searcher == event.leader:
         score += 0.05
-        reasons.append("searcher==builder:+0.05")
+        reasons.append("searcher==leader:+0.05")
 
     score = min(score, CONFIDENCE_CEILING)
 
