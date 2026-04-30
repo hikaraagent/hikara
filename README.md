@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/bannerhikara.jpg" alt="hikara" width="100%" />
+<img src="assets/bannerhikara.png" alt="hikara" width="100%" />
 
 ### solana mev forensics agent
 
