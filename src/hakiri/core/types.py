@@ -2,6 +2,9 @@
 
 kept dependency-free. only stdlib + pydantic. importing this from any
 subpackage must not pull rpc, decoding, or scoring code.
+
+solana note. addresses are base58 pubkeys (32 bytes). amounts are token
+raw units. native sol is in lamports (1 sol = 1e9 lamports).
 """
 
 from __future__ import annotations
@@ -31,10 +34,10 @@ class Verdict(str, Enum):
 
 
 class SwapTx(BaseModel):
-    """one swap leg. dex-agnostic, decoded from logs."""
+    """one swap leg. dex-agnostic, decoded from inner instructions or logs."""
 
-    tx_hash: str
-    block_number: int
+    signature: str
+    slot: int
     tx_index: int
     sender: str
     pool: str
@@ -42,54 +45,54 @@ class SwapTx(BaseModel):
     token_out: str
     amount_in: int
     amount_out: int
-    gas_price_wei: int
-    gas_used: int
-    coinbase_transfer_wei: int = 0
+    compute_unit_price: int = 0
+    compute_units: int = 0
+    jito_tip_lamports: int = 0
 
 
 class Victim(BaseModel):
     """the user who got priced out, sandwiched, or jit'd."""
 
-    tx_hash: str
+    signature: str
     sender: str
-    realized_loss_wei: int = 0
+    realized_loss_lamports: int = 0
     expected_amount_out: Optional[int] = None
     actual_amount_out: Optional[int] = None
 
     @property
-    def loss_eth(self) -> float:
-        return self.realized_loss_wei / 1e18
+    def loss_sol(self) -> float:
+        return self.realized_loss_lamports / 1e9
 
 
 class Bundle(BaseModel):
-    """ordered group of txs from one searcher in one block."""
+    """ordered group of txs from one searcher inside the same slot."""
 
-    block_number: int
-    builder: Optional[str] = None
+    slot: int
+    leader: Optional[str] = None
     searcher: Optional[str] = None
     txs: List[SwapTx] = Field(default_factory=list)
-    coinbase_transfer_wei: int = 0
-    gas_used: int = 0
+    jito_tip_lamports: int = 0
+    compute_units: int = 0
 
 
 class Event(BaseModel):
-    """one mev event detected on a block. the unit hakiri reports on."""
+    """one mev event detected on a slot. the unit hakiri reports on."""
 
     kind: EventKind
-    block_number: int
+    slot: int
     block_hash: Optional[str] = None
     bundle: Optional[Bundle] = None
     victims: List[Victim] = Field(default_factory=list)
-    profit_wei: int = 0
-    coinbase_transfer_wei: int = 0
-    builder: Optional[str] = None
+    profit_lamports: int = 0
+    jito_tip_lamports: int = 0
+    leader: Optional[str] = None
     searcher: Optional[str] = None
     notes: List[str] = Field(default_factory=list)
 
     @property
-    def profit_eth(self) -> float:
-        return self.profit_wei / 1e18
+    def profit_sol(self) -> float:
+        return self.profit_lamports / 1e9
 
     @property
-    def total_victim_loss_eth(self) -> float:
-        return sum(v.loss_eth for v in self.victims)
+    def total_victim_loss_sol(self) -> float:
+        return sum(v.loss_sol for v in self.victims)
