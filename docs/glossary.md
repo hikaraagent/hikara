@@ -1,12 +1,12 @@
 # glossary
 
-domain terms used throughout hakiri.
+domain terms used throughout hikara.
 
 **backrun** — an arbitrage transaction placed immediately after a known price-moving transaction in the same slot.
 
 **bundle** — an ordered group of transactions submitted together. on solana, searchers send bundles to the jito block engine, which forwards them to leaders.
 
-**confidence cap** — hakiri scores never exceed 0.95. a detector, not an oracle.
+**confidence cap** — hikara scores never exceed 0.95. a detector, not an oracle.
 
 **geyser** — solana's plugin interface for streaming account / slot / transaction notifications. yellowstone-grpc is the canonical implementation.
 
@@ -20,7 +20,7 @@ domain terms used throughout hakiri.
 
 **lamport** — the smallest unit of native sol. 1 sol = 1,000,000,000 lamports (1e9).
 
-**leader** — the validator producing the current slot. one per slot, fixed by the leader schedule. on hakiri, leaders are tagged via `Bundle.leader` and `Event.leader`.
+**leader** — the validator producing the current slot. one per slot, fixed by the leader schedule. on hikara, leaders are tagged via `Bundle.leader` and `Event.leader`.
 
 **leader schedule** — the precomputed assignment of leaders to slots for an epoch. each slot has exactly one leader.
 
@@ -30,16 +30,16 @@ domain terms used throughout hakiri.
 
 **sandwich** — a front-run + back-run pair surrounding a victim swap on the same pool. the searcher buys before, sells after, captures the spread the victim creates.
 
-**searcher** — a bot operator submitting bundles to the jito block engine. one searcher can use many wallets; hakiri labels what is publicly attributable.
+**searcher** — a bot operator submitting bundles to the jito block engine. one searcher can use many wallets; hikara labels what is publicly attributable.
 
 **shred** — a solana network packet carrying a fragment of a block. shredstream proxies allow listening to shreds before the block is fully assembled, giving sub-leader-level latency.
 
-**signature** — the 64-byte ed25519 signature of a transaction. base58-encoded. unique per transaction; used as the identifier (replaces ethereum's tx_hash in hakiri's data model).
+**signature** — the 64-byte ed25519 signature of a transaction. base58-encoded. unique per transaction; used as the identifier (replaces ethereum's tx_hash in hikara's data model).
 
 **slot** — solana's unit of block time. one slot ≈ 400ms. each slot has a leader and may produce a block (slots can be skipped).
 
 **tx_index** — the position of a transaction within its slot. ordering matters for bundle reconstruction.
 
-**verdict** — hakiri's human-readable label for a scored event: `confirmed` (≥0.85), `likely` (≥0.65), `suspected` (≥0.40), `noise` (<0.40).
+**verdict** — hikara's human-readable label for a scored event: `confirmed` (≥0.85), `likely` (≥0.65), `suspected` (≥0.40), `noise` (<0.40).
 
 **whirlpool** — orca's concentrated-liquidity amm. program id `whirLbMiicVdio4qvUfM5KAg6Ct8VwpYzGff3uctyCc`.

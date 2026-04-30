@@ -1,8 +1,8 @@
 # architecture
 
-hakiri is intentionally a pipeline of small layers. you can replace any layer
+hikara is intentionally a pipeline of small layers. you can replace any layer
 without touching the others. the only stable contract is the `Event` type in
-`src/hakiri/core/types.py`.
+`src/hikara/core/types.py`.
 
 ```
 ingest  →  decode  →  classify  →  score  →  (ai filter)  →  sink
@@ -19,7 +19,7 @@ two source families feed the pipeline:
    for canonical retrieval, `getTransaction` for per-signature enrichment.
 
 the live ingest path runs in `ingest-rs/`. python has stubs at
-`src/hakiri/ingest/{geyser,jito_relay,trace}.py` so the rest of the pipeline
+`src/hikara/ingest/{geyser,jito_relay,trace}.py` so the rest of the pipeline
 can be exercised without a node.
 
 ## decode layer

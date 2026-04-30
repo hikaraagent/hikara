@@ -25,7 +25,7 @@ under MIT if you want to keep the ethereum line alive.
 - wire `ingest-rs` via pyo3 so geyser / shredstream live ingest actually runs
 - JIT-01 just-in-time liquidity rule for orca whirlpool concentrated positions
 - ARB-01 atomic multi-hop arb rule (3+ pools in a single signature)
-- fixture replay command (`hakiri demo replay <slot>`) loading from `tests/fixtures/slots/`
+- fixture replay command (`hikara demo replay <slot>`) loading from `tests/fixtures/slots/`
 - structured cli output mode (`--format json`)
 
 ## v0.4 - planned

@@ -1,12 +1,12 @@
-# contributing to hakiri
+# contributing to hikara
 
 short version: ship code that passes ci, write a clear pr description, no llm-generated readmes.
 
 ## what we want
 
 - new detection rules with on-chain evidence (tx hash + block number) in the pr
-- new searcher / builder labels in `src/hakiri/enrich/`
-- new dex decoders in `src/hakiri/decode/`
+- new searcher / builder labels in `src/hikara/enrich/`
+- new dex decoders in `src/hikara/decode/`
 - new output sinks (slack, discord, prometheus, etc.)
 - bug fixes with a regression test
 
@@ -46,7 +46,7 @@ ci runs the same three. red ci on main does not get advertised.
 
 see [MAINTAINERS.md](MAINTAINERS.md) for the active maintainers and their zones.
 
-a pr touching `src/hakiri/core/` always needs at least one core maintainer review. a pr touching `ingest-rs/` always needs `@0xnova`.
+a pr touching `src/hikara/core/` always needs at least one core maintainer review. a pr touching `ingest-rs/` always needs `@0xnova`.
 
 ## reporting security issues
 

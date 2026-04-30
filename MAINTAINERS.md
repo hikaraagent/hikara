@@ -13,7 +13,7 @@ active maintainers and their zones. all pull requests need at least one approval
 
 ## review policy
 
-- two-review minimum for changes to `src/hakiri/core/`. one must be `@hakiriagent`.
+- two-review minimum for changes to `src/hikara/core/`. one must be `@hakiriagent`.
 - one review for changes to a single zone, by the zone owner.
 - changes that span zones get one review from each affected zone.
 - ci must be green on the head commit before merge.

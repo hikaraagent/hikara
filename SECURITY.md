@@ -2,13 +2,13 @@
 
 ## scope
 
-hakiri is a read-only forensics tool. it does not sign transactions, hold keys, or move funds. the entire attack surface is:
+hikara is a read-only forensics tool. it does not sign transactions, hold keys, or move funds. the entire attack surface is:
 
-- the rpc credentials in your `.env` (your responsibility, never read by hakiri except as configured)
+- the rpc credentials in your `.env` (your responsibility, never read by hikara except as configured)
 - the webhook url you configure (outbound POST, never inbound)
 - the local jsonl output file (ordinary file io)
 
-what hakiri does not do:
+what hikara does not do:
 
 - never connects to a wallet
 - never asks for a private key
@@ -19,7 +19,7 @@ what hakiri does not do:
 
 do not open a public github issue.
 
-email the disclosure to: `security@hakiri.xyz`. include:
+email the disclosure to: `security@hikara.xyz`. include:
 
 - a clear description of the issue
 - a tx hash or block number reproducing the bug if applicable
@@ -38,7 +38,7 @@ what does not:
 
 - false positives or false negatives in classification (open a normal issue with evidence)
 - requests for paid features
-- "you should have caught this private bundle" — hakiri only sees public mempool and post-inclusion data
+- "you should have caught this private bundle" — hikara only sees public mempool and post-inclusion data
 
 ## supported versions
 

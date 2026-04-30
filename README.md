@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/bannerhakiri.jpg" alt="hakiri" width="100%" />
+<img src="assets/bannerhikara.jpg" alt="hikara" width="100%" />
 
 ### solana mev forensics agent
 
@@ -11,8 +11,8 @@ read-only by design. shows what got taken from you in the dark.
 [![Rust](https://img.shields.io/badge/rust-stable-orange.svg)](ingest-rs/Cargo.toml)
 [![CI](https://img.shields.io/badge/ci-pytest%20%2B%20cargo-success.svg)](.github/workflows/ci.yml)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
-[![X / Twitter](https://img.shields.io/badge/x-@HakiriAgent-000000.svg)](https://x.com/HakiriAgent)
-[![Website](https://img.shields.io/badge/site-hakiri.xyz-white.svg)](https://hakiri.xyz/)
+[![X / Twitter](https://img.shields.io/badge/x-@HikaraAgent-000000.svg)](https://x.com/HikaraAgent)
+[![Website](https://img.shields.io/badge/site-hikara.xyz-white.svg)](https://hikara.xyz/)
 
 [![Solana](https://img.shields.io/badge/chain-solana-9945FF.svg)]()
 [![Raydium](https://img.shields.io/badge/decode-raydium%20%2B%20orca-14F195.svg)]()
@@ -75,7 +75,7 @@ no wallet. no signer. no executor. no trading. anyone forking to build a sniper 
                   └──────────────┘
 ```
 
-every step is independent. you can plug in your own ingest, your own classifier, your own sink. the contract between layers is the `Event` dataclass in `src/hakiri/core/types.py`.
+every step is independent. you can plug in your own ingest, your own classifier, your own sink. the contract between layers is the `Event` dataclass in `src/hikara/core/types.py`.
 
 ## supported
 
@@ -116,8 +116,8 @@ new rules ship behind a version, not a feature flag. the repo is the source of t
 requires python 3.9+ and rust stable.
 
 ```sh
-git clone https://github.com/hakiriagent/hakiri.git
-cd hakiri
+git clone https://github.com/hakiriagent/hikara.git
+cd hikara
 
 # install python package + dev deps
 make install
@@ -126,31 +126,31 @@ make install
 cd ingest-rs && cargo build --release && cd ..
 
 # run an offline demo (zero network)
-hakiri demo investigate
+hikara demo investigate
 
 # run the live scanner against your rpc
 cp .env.example .env
-$EDITOR .env   # set HAKIRI_RPC_HTTP_URL and / or HAKIRI_GEYSER_GRPC_URL
-hakiri scan
+$EDITOR .env   # set HIKARA_RPC_HTTP_URL and / or HIKARA_GEYSER_GRPC_URL
+hikara scan
 ```
 
-no rpc? `hakiri demo scan` shows the full pipeline against synthetic fixtures.
+no rpc? `hikara demo scan` shows the full pipeline against synthetic fixtures.
 
 ## cli reference
 
 ```sh
-hakiri --version                  # quick version check
-hakiri version                    # version + active config
-hakiri scan                       # live slot + bundle scan
-hakiri scan --once                # one slot then exit (smoke test)
-hakiri investigate <sig|slot>     # walk the pipeline on a specific target
+hikara --version                  # quick version check
+hikara version                    # version + active config
+hikara scan                       # live slot + bundle scan
+hikara scan --once                # one slot then exit (smoke test)
+hikara investigate <sig|slot>     # walk the pipeline on a specific target
 
-hakiri demo scan                  # canned scan against a synthetic slot
-hakiri demo investigate           # full pipeline trace, prints every step
-hakiri demo replay <id>           # replay a recorded fixture
+hikara demo scan                  # canned scan against a synthetic slot
+hikara demo investigate           # full pipeline trace, prints every step
+hikara demo replay <id>           # replay a recorded fixture
 ```
 
-example output for `hakiri demo investigate`:
+example output for `hikara demo investigate`:
 
 ```
 ─────────────────── step 1. decoded swaps ────────────────────
@@ -176,8 +176,8 @@ example output for `hakiri demo investigate`:
 ## architecture
 
 ```
-hakiri/
-├── src/hakiri/                    python package
+hikara/
+├── src/hikara/                    python package
 │   ├── core/                      types · classify · score
 │   ├── decode/                    raydium · orca · program ids
 │   ├── enrich/                    leader · jito tip · searcher
@@ -214,7 +214,7 @@ hakiri/
 
 short version: ship code that passes ci, write a clear pr description, no llm-generated readmes.
 
-new searchers, leaders, and program ids are the easiest path in. open a PR against `src/hakiri/enrich/searcher.py`, `src/hakiri/enrich/leader.py`, or `src/hakiri/decode/programs.py` with on-chain evidence (three signatures + slot numbers) in the description.
+new searchers, leaders, and program ids are the easiest path in. open a PR against `src/hikara/enrich/searcher.py`, `src/hikara/enrich/leader.py`, or `src/hikara/decode/programs.py` with on-chain evidence (three signatures + slot numbers) in the description.
 
 read [CONTRIBUTING.md](CONTRIBUTING.md) for the full guidelines.
 
