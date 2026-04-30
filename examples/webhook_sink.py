@@ -1,7 +1,7 @@
 """feed events into a webhook sink.
 
 run with:
-    HAKIRI_WEBHOOK_URL=https://your.webhook  python examples/webhook_sink.py
+    HIKARA_WEBHOOK_URL=https://your.webhook  python examples/webhook_sink.py
 """
 
 from __future__ import annotations
@@ -9,16 +9,16 @@ from __future__ import annotations
 import asyncio
 import os
 
-from hakiri.core.classify import classify_block
-from hakiri.core.score import score_event
-from hakiri.demo.scan import fixture_swaps
-from hakiri.output.webhook import WebhookSink
+from hikara.core.classify import classify_block
+from hikara.core.score import score_event
+from hikara.demo.scan import fixture_swaps
+from hikara.output.webhook import WebhookSink
 
 
 async def main() -> None:
-    url = os.environ.get("HAKIRI_WEBHOOK_URL")
+    url = os.environ.get("HIKARA_WEBHOOK_URL")
     if not url:
-        print("HAKIRI_WEBHOOK_URL not set. exiting.")
+        print("HIKARA_WEBHOOK_URL not set. exiting.")
         return
 
     sink = WebhookSink(url)
