@@ -6,9 +6,9 @@
 /src/hakiri/cli.py                      @hakiriagent @luka
 /src/hakiri/core/                       @hakiriagent @mikrohash
 /src/hakiri/decode/                     @luka
-/src/hakiri/enrich/builder.py           @0xnova @hakiriagent
+/src/hakiri/enrich/leader.py            @0xnova @hakiriagent
 /src/hakiri/enrich/searcher.py          @mikrohash @hakiriagent
-/src/hakiri/enrich/coinbase.py          @0xnova
+/src/hakiri/enrich/jito.py              @0xnova
 /src/hakiri/ingest/                     @0xnova
 /src/hakiri/output/                     @luka
 /src/hakiri/demo/                       @luka @hakiriagent

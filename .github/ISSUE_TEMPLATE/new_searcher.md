@@ -1,28 +1,28 @@
 ---
-name: new searcher / builder label
+name: new searcher / leader / program label
 about: add a known address to the enrichment tables
 labels: enrichment
 ---
 
-**address**
+**pubkey**
 
-`0x...`
+`<base58 pubkey>`
 
 **proposed label**
 
-<!-- short, lowercase, hyphenated. e.g. `jared-2`, `rsync-builder`. -->
+<!-- short, lowercase, hyphenated. e.g. `jito-router-1`, `pump-arb-2`. -->
 
 **evidence**
 
-<!-- at least three tx hashes showing this address operating in mev. include block
-     numbers and a one-line description for each. -->
+<!-- at least three signatures showing this address operating in mev. include
+     slot numbers and a one-line description for each. -->
 
-1. `0x...` block N — pattern observed
-2. `0x...` block N — pattern observed
-3. `0x...` block N — pattern observed
+1. `<signature>` slot N — pattern observed
+2. `<signature>` slot N — pattern observed
+3. `<signature>` slot N — pattern observed
 
 **type**
 
-- [ ] searcher
-- [ ] builder
-- [ ] router / aggregator
+- [ ] searcher (writes mev-style txs)
+- [ ] leader / validator (block producer)
+- [ ] program / router / aggregator
