@@ -1,70 +1,90 @@
-"""tests for hakiri.decode (uniswap v2/v3 log decoders + routers)."""
+"""tests for hakiri.decode (raydium + orca + program lookups)."""
 
 from __future__ import annotations
 
-from eth_abi import encode as abi_encode
+from hakiri.decode.orca import decode_orca_swap
+from hakiri.decode.programs import (
+    ORCA_WHIRLPOOL,
+    RAYDIUM_AMM_V4,
+    is_known_program,
+    program_label,
+)
+from hakiri.decode.raydium import (
+    SWAP_BASE_IN_TAG,
+    SWAP_BASE_OUT_TAG,
+    decode_raydium_swap,
+)
 
-from hakiri.decode.routers import is_known_router, router_label
-from hakiri.decode.uniswap_v2 import V2_SWAP_TOPIC, decode_v2_swap
-from hakiri.decode.uniswap_v3 import V3_SWAP_TOPIC, decode_v3_swap
+SOL_MINT = "So11111111111111111111111111111111111111112"
+USDC_MINT = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
 
 
-def _addr_topic(addr: str) -> str:
-    return "0x" + "0" * 24 + addr.lower().replace("0x", "")
-
-
-def test_v2_swap_decode_zero_to_one() -> None:
-    sender = "0x1111111111111111111111111111111111111111"
-    to = "0x2222222222222222222222222222222222222222"
-    data = "0x" + abi_encode(
-        ["uint256", "uint256", "uint256", "uint256"], [10**18, 0, 0, 5_000_000]
-    ).hex()
-    log = {
-        "topics": [V2_SWAP_TOPIC, _addr_topic(sender), _addr_topic(to)],
+def _ix(program_id: str, *, data: bytes, transfers: list, accounts: list) -> dict:
+    return {
+        "program_id": program_id,
         "data": data,
-        "address": "0xpool",
-        "transactionHash": "0xtx",
-        "blockNumber": "0x1",
-        "logIndex": "0x0",
+        "transfers": transfers,
+        "accounts": accounts,
     }
-    out = decode_v2_swap(log)
+
+
+def test_raydium_swap_decode_base_in() -> None:
+    transfers = [
+        {"src": "user_ata_sol", "dst": "pool_vault_sol", "amount": 10**9, "mint": SOL_MINT},
+        {"src": "pool_vault_usdc", "dst": "user_ata_usdc", "amount": 30 * 10**6, "mint": USDC_MINT},
+    ]
+    accounts = ["pool_pda", "user_pubkey", "user_ata_sol", "user_ata_usdc"]
+    out = decode_raydium_swap(
+        _ix(RAYDIUM_AMM_V4, data=bytes([SWAP_BASE_IN_TAG]), transfers=transfers, accounts=accounts)
+    )
     assert out is not None
-    assert out["amount_in"] == 10**18
-    assert out["amount_out"] == 5_000_000
-    assert out["side"] == "0->1"
+    assert out["dex"] == "raydium-amm-v4"
+    assert out["amount_in"] == 10**9
+    assert out["amount_out"] == 30 * 10**6
+    assert out["token_in"] == SOL_MINT
+    assert out["token_out"] == USDC_MINT
 
 
-def test_v2_swap_decode_returns_none_on_other_topic() -> None:
-    log = {"topics": ["0xdeadbeef"], "data": "0x", "address": "0xpool"}
-    assert decode_v2_swap(log) is None
+def test_raydium_swap_returns_none_on_other_program() -> None:
+    out = decode_raydium_swap(
+        _ix("OtherProgram1111111", data=bytes([SWAP_BASE_OUT_TAG]), transfers=[], accounts=[])
+    )
+    assert out is None
 
 
-def test_v3_swap_decode_one_to_zero() -> None:
-    sender = "0x1111111111111111111111111111111111111111"
-    to = "0x2222222222222222222222222222222222222222"
-    data = "0x" + abi_encode(
-        ["int256", "int256", "uint160", "uint128", "int24"],
-        [-(10**18), 5_000_000, 79228162514264337593543950336, 100, 1],
-    ).hex()
-    log = {
-        "topics": [V3_SWAP_TOPIC, _addr_topic(sender), _addr_topic(to)],
-        "data": data,
-        "address": "0xpool",
-        "transactionHash": "0xtx",
-        "blockNumber": "0x1",
-        "logIndex": "0x0",
-    }
-    out = decode_v3_swap(log)
+def test_raydium_swap_returns_none_on_unknown_tag() -> None:
+    out = decode_raydium_swap(
+        _ix(RAYDIUM_AMM_V4, data=bytes([0x42]), transfers=[], accounts=[])
+    )
+    assert out is None
+
+
+def test_orca_swap_decode() -> None:
+    transfers = [
+        {"src": "user_ata_sol", "dst": "pool_vault_sol", "amount": 5 * 10**8, "mint": SOL_MINT},
+        {"src": "pool_vault_usdc", "dst": "user_ata_usdc", "amount": 15 * 10**6, "mint": USDC_MINT},
+    ]
+    accounts = ["whirlpool_pda", "user_pubkey", "user_ata_sol", "user_ata_usdc"]
+    out = decode_orca_swap(
+        _ix(ORCA_WHIRLPOOL, data=b"", transfers=transfers, accounts=accounts)
+    )
     assert out is not None
-    assert out["side"] == "1->0"
+    assert out["dex"] == "orca-whirlpool"
+    assert out["amount_in"] == 5 * 10**8
+    assert out["amount_out"] == 15 * 10**6
 
 
-def test_known_routers_have_labels() -> None:
-    uni_v2 = "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D"
-    assert is_known_router(uni_v2)
-    assert router_label(uni_v2) == "uniswap-v2-router"
+def test_orca_swap_returns_none_on_other_program() -> None:
+    out = decode_orca_swap(_ix("OtherProgram", data=b"", transfers=[], accounts=[]))
+    assert out is None
 
 
-def test_unknown_router_returns_empty_label() -> None:
-    assert not is_known_router("0xdead")
-    assert router_label("0xdead") == ""
+def test_known_programs_have_labels() -> None:
+    assert is_known_program(RAYDIUM_AMM_V4)
+    assert program_label(RAYDIUM_AMM_V4) == "raydium-amm-v4"
+    assert program_label(ORCA_WHIRLPOOL) == "orca-whirlpool"
+
+
+def test_unknown_program_returns_empty_label() -> None:
+    assert not is_known_program("Unknown111111")
+    assert program_label("Unknown111111") == ""

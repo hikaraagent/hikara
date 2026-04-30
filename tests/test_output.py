@@ -12,23 +12,23 @@ from hakiri.output.stdout import StdoutSink
 
 def _event() -> Event:
     swap = SwapTx(
-        tx_hash="0xa",
-        block_number=21_000_000,
+        signature="SigA",
+        slot=287_000_000,
         tx_index=0,
-        sender="0xabc",
-        pool="0xpool",
-        token_in="0xt1",
-        token_out="0xt2",
+        sender="JTOarbi",
+        pool="poolA",
+        token_in="t1",
+        token_out="t2",
         amount_in=1,
         amount_out=1,
-        gas_price_wei=1,
-        gas_used=1,
+        compute_unit_price=1,
+        compute_units=1,
     )
     return Event(
         kind=EventKind.SANDWICH,
-        block_number=21_000_000,
-        bundle=Bundle(block_number=21_000_000, searcher="0xabc", txs=[swap]),
-        victims=[Victim(tx_hash="0xv", sender="0xv")],
+        slot=287_000_000,
+        bundle=Bundle(slot=287_000_000, searcher="JTOarbi", txs=[swap]),
+        victims=[Victim(signature="SigVictim", sender="VicSender")],
     )
 
 
@@ -45,6 +45,7 @@ def test_jsonl_sink_writes_one_line(tmp_path) -> None:
     assert "event" in record
     assert "score" in record
     assert record["event"]["kind"] == "sandwich"
+    assert record["event"]["slot"] == 287_000_000
 
 
 def test_stdout_sink_does_not_raise() -> None:
