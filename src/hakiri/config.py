@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import List, Literal, Optional
+from typing import Literal, Optional
 
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -19,17 +19,14 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-    ws_url: Optional[str] = None
-    http_url: Optional[str] = None
+    rpc_http_url: Optional[str] = None
+    rpc_ws_url: Optional[str] = None
 
-    relay_urls: List[str] = Field(
-        default_factory=lambda: [
-            "https://relay.flashbots.net",
-            "https://relay.ultrasoundmoney.org",
-        ]
-    )
+    geyser_grpc_url: Optional[str] = None
+    shredstream_url: Optional[str] = None
+    jito_block_engine_url: str = "https://mainnet.block-engine.jito.wtf"
 
-    trace_mode: Literal["debug", "parity", "rpc"] = "rpc"
+    trace_mode: Literal["getblock", "geyser", "shredstream"] = "getblock"
 
     anthropic_api_key: Optional[str] = Field(default=None, alias="ANTHROPIC_API_KEY")
     ai_model: str = "claude-haiku-4-5-20251001"
@@ -38,12 +35,16 @@ class Settings(BaseSettings):
     jsonl_path: str = "./out/hakiri.jsonl"
     webhook_url: Optional[str] = None
 
-    backfill_blocks: int = 0
+    backfill_slots: int = 0
     log_level: Literal["debug", "info", "warning", "error"] = "info"
 
     @property
     def has_rpc(self) -> bool:
-        return bool(self.http_url) or bool(self.ws_url)
+        return bool(self.rpc_http_url) or bool(self.rpc_ws_url)
+
+    @property
+    def has_stream(self) -> bool:
+        return bool(self.geyser_grpc_url) or bool(self.shredstream_url)
 
     @property
     def has_ai(self) -> bool:
