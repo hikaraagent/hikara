@@ -2,6 +2,51 @@
 
 all notable changes ship here. format follows [keep a changelog](https://keepachangelog.com).
 
+## [0.3.0] - 2026-04-30 — rebrand: hakiri → hikara
+
+this is a rebrand. the project was published as **hakiri** for two days
+(v0.1.0 ethereum, v0.2.0 solana pivot). it ships from v0.3.0 onward as
+**hikara**. brand, name, package, cli command, env-var prefix, banner,
+domain — all changed. nothing else.
+
+if you installed v0.2.0 — uninstall and reinstall under the new name.
+
+### changed
+
+- python package: `hakiri` → `hikara`. import path is `from hikara import ...`
+- cli command: `hakiri` → `hikara`. add `hikara --version` to verify
+- pyproject: `name = "hakiri"` → `"hikara"`. console script entrypoint renamed
+- rust crate: `hakiri-ingest` → `hikara-ingest`. lib name `hikara_ingest`
+- env-var prefix: `HAKIRI_*` → `HIKARA_*`. all keys renamed in lockstep
+- banner asset: `assets/bannerhakiri.jpg` → `assets/bannerhikara.jpg`
+- repo description and topics on github
+- domain: hakiri.xyz → hikara.xyz (both retained for redirect during transition)
+
+### kept
+
+- github repo url stays `hakiriagent/hikara` (account login unchanged, slug renamed)
+- maintainer handles unchanged: hakiri (lead), 0xnova, mikrohash, luka
+- contributor zones in CODEOWNERS unchanged in scope, only paths updated
+- twitter @HakiriAgent stays active during transition; new @HikaraAgent will be set as the canonical handle when ready
+- license, philosophy, heuristic ids (SAND-01, BACK-01, ...), confidence cap (0.95)
+
+### removed
+
+- nothing functional. the rename is brand-only. all detection logic, decoders,
+  scoring, and ingest stubs from v0.2.0 carry forward identically.
+
+### honest status
+
+what is **not** shipped in 0.3.0:
+
+- still no live geyser ingest (planned for next minor)
+- still placeholder seed data in searcher / leader tables
+- still a no-op ai filter
+- the v0.1.x and v0.2.0 historical names appear in earlier changelog
+  entries below. those names were the actual brand at that time.
+
+read-only by design. no wallet, no signer, no executor. the brand changed; the philosophy did not.
+
 ## [0.2.0] - 2026-04-30 — chain pivot to solana
 
 this is a scope change. the v0.1.x line was an ethereum mev forensics agent.
@@ -31,24 +76,24 @@ no need to ask. ongoing development is solana-only from here.
 - `Victim.realized_loss_wei` renamed `Victim.realized_loss_lamports`
 - `SwapTx.tx_hash` renamed `SwapTx.signature`; `block_number` renamed `slot`
 - `Event.profit_wei` renamed `Event.profit_lamports`; `profit_eth` property renamed `profit_sol`
-- env vars: `HAKIRI_HTTP_URL` → `HAKIRI_RPC_HTTP_URL`. `HAKIRI_WS_URL` → `HAKIRI_RPC_WS_URL`. `HAKIRI_RELAY_URLS` → `HAKIRI_JITO_BLOCK_ENGINE_URL`. `HAKIRI_BACKFILL_BLOCKS` → `HAKIRI_BACKFILL_SLOTS`.
+- env vars: `HIKARA_HTTP_URL` → `HIKARA_RPC_HTTP_URL`. `HIKARA_WS_URL` → `HIKARA_RPC_WS_URL`. `HIKARA_RELAY_URLS` → `HIKARA_JITO_BLOCK_ENGINE_URL`. `HIKARA_BACKFILL_BLOCKS` → `HIKARA_BACKFILL_SLOTS`.
 - trace mode values: `debug`/`parity`/`rpc` → `getblock`/`geyser`/`shredstream`
 - rust crate: `SwapLeg.tx_hash` → `signature`. `Bundle.block_number` → `slot`. `coinbase_transfer_wei` → `jito_tip_lamports`. `PendingTx` aliased to `StreamedTx` for backward-compat.
 - demo fixture moved from a uniswap v3 sandwich on weth/usdc to a raydium amm v4 sandwich on sol/usdc
 - readme, roadmap, architecture, heuristics, glossary fully rewritten
 
 ### removed
-- `src/hakiri/decode/uniswap_v2.py`, `uniswap_v3.py`, `routers.py`
-- `src/hakiri/enrich/builder.py` (PBS-style block builders)
-- `src/hakiri/enrich/coinbase.py` (coinbase-transfer detection on eth)
-- `src/hakiri/ingest/mempool.py`, `builder.py` (eth pending-tx + relay stubs)
+- `src/hikara/decode/uniswap_v2.py`, `uniswap_v3.py`, `routers.py`
+- `src/hikara/enrich/builder.py` (PBS-style block builders)
+- `src/hikara/enrich/coinbase.py` (coinbase-transfer detection on eth)
+- `src/hikara/ingest/mempool.py`, `builder.py` (eth pending-tx + relay stubs)
 - ethereum-specific topics, keywords, and classifier metadata
 
 ### honest status
 
 what is **not** shipped in 0.2.0:
 
-- the geyser / shredstream live ingest is still a stub. `hakiri scan` falls through to demo when called.
+- the geyser / shredstream live ingest is still a stub. `hikara scan` falls through to demo when called.
 - jit, atomic-arb, leader-collusion, liquidation rules are planned for v0.3 / v0.4.
 - meteora, lifinity, pump.fun, phoenix, raydium-clmm decoders are stubs.
 - the searcher and leader tables are seeded with placeholders. real curation lands as PRs from the community.
@@ -60,11 +105,11 @@ read-only by design. no wallet, no signer, no executor. the chain changed; the p
 
 ### added
 - top-level `--version` / `-V` flag on the cli for fast version checks
-- banner asset at `assets/bannerhakiri.jpg` referenced from the readme
+- banner asset at `assets/bannerhikara.jpg` referenced from the readme
 - twitter, telegram, and website badges on the readme
 
 ### changed
-- project homepage now points to https://hakiri.xyz/ (pyproject + repo metadata)
+- project homepage now points to https://hikara.xyz/ (pyproject + repo metadata)
 - ascii wordmark dropped from readme; the banner already shows it
 
 ### fixed
@@ -83,11 +128,12 @@ read-only by design. no wallet, no signer, no executor. the chain changed; the p
 - output sinks: stdout (rich), jsonl, webhook (httpx)
 - typer cli with `scan`, `investigate`, `demo`, `version` subcommands
 - offline `demo scan` and `demo investigate` driving synthetic fixtures
-- pydantic-settings config loader with env-var prefix `HAKIRI_`
-- rust crate `hakiri-ingest`: pending-tx types, sandwich classifier, trace types
+- pydantic-settings config loader with env-var prefix `HIKARA_`
+- rust crate `hikara-ingest`: pending-tx types, sandwich classifier, trace types
 - ci workflow on push and pr: python matrix (3.9 - 3.12) + rust stable
 
-[unreleased]: https://github.com/hakiriagent/hakiri/compare/v0.2.0...HEAD
-[0.2.0]: https://github.com/hakiriagent/hakiri/releases/tag/v0.2.0
-[0.1.1]: https://github.com/hakiriagent/hakiri/releases/tag/v0.1.1
-[0.1.0]: https://github.com/hakiriagent/hakiri/releases/tag/v0.1.0
+[unreleased]: https://github.com/hakiriagent/hikara/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/hakiriagent/hikara/releases/tag/v0.3.0
+[0.2.0]: https://github.com/hakiriagent/hikara/releases/tag/v0.2.0
+[0.1.1]: https://github.com/hakiriagent/hikara/releases/tag/v0.1.1
+[0.1.0]: https://github.com/hakiriagent/hikara/releases/tag/v0.1.0
