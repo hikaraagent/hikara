@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from hakiri.demo.investigate import run_demo_investigate
-from hakiri.demo.scan import fixture_swaps, run_demo_scan
+from hikara.demo.investigate import run_demo_investigate
+from hikara.demo.scan import fixture_swaps, run_demo_scan
 
 
 def test_fixture_has_sandwich_pattern() -> None:

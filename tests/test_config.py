@@ -1,15 +1,15 @@
-"""tests for hakiri.config."""
+"""tests for hikara.config."""
 
 from __future__ import annotations
 
 import os
 
-from hakiri.config import Settings, load
+from hikara.config import Settings, load
 
 
 def test_defaults(monkeypatch) -> None:
     for k in list(os.environ):
-        if k.startswith("HAKIRI_") or k == "ANTHROPIC_API_KEY":
+        if k.startswith("HIKARA_") or k == "ANTHROPIC_API_KEY":
             monkeypatch.delenv(k, raising=False)
     s = Settings()
     assert s.trace_mode == "getblock"
@@ -20,14 +20,14 @@ def test_defaults(monkeypatch) -> None:
 
 
 def test_env_loads_rpc(monkeypatch) -> None:
-    monkeypatch.setenv("HAKIRI_RPC_HTTP_URL", "https://api.mainnet-beta.solana.com")
+    monkeypatch.setenv("HIKARA_RPC_HTTP_URL", "https://api.mainnet-beta.solana.com")
     s = load()
     assert s.has_rpc is True
 
 
 def test_env_loads_stream(monkeypatch) -> None:
     monkeypatch.setenv(
-        "HAKIRI_GEYSER_GRPC_URL", "https://yellowstone.example.com:10000"
+        "HIKARA_GEYSER_GRPC_URL", "https://yellowstone.example.com:10000"
     )
     s = load()
     assert s.has_stream is True

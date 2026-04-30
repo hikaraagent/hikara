@@ -1,9 +1,9 @@
-"""tests for hakiri.core.classify."""
+"""tests for hikara.core.classify."""
 
 from __future__ import annotations
 
-from hakiri.core.classify import classify_slot
-from hakiri.core.types import EventKind, SwapTx, Verdict
+from hikara.core.classify import classify_slot
+from hikara.core.types import EventKind, SwapTx, Verdict
 
 SOL = "So11111111111111111111111111111111111111112"
 USDC = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"

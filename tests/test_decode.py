@@ -1,15 +1,15 @@
-"""tests for hakiri.decode (raydium + orca + program lookups)."""
+"""tests for hikara.decode (raydium + orca + program lookups)."""
 
 from __future__ import annotations
 
-from hakiri.decode.orca import decode_orca_swap
-from hakiri.decode.programs import (
+from hikara.decode.orca import decode_orca_swap
+from hikara.decode.programs import (
     ORCA_WHIRLPOOL,
     RAYDIUM_AMM_V4,
     is_known_program,
     program_label,
 )
-from hakiri.decode.raydium import (
+from hikara.decode.raydium import (
     SWAP_BASE_IN_TAG,
     SWAP_BASE_OUT_TAG,
     decode_raydium_swap,

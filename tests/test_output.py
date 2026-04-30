@@ -1,13 +1,13 @@
-"""tests for hakiri.output sinks (jsonl + stdout smoke)."""
+"""tests for hikara.output sinks (jsonl + stdout smoke)."""
 
 from __future__ import annotations
 
 import json
 
-from hakiri.core.score import score_event
-from hakiri.core.types import Bundle, Event, EventKind, SwapTx, Victim
-from hakiri.output.jsonl import JsonlSink
-from hakiri.output.stdout import StdoutSink
+from hikara.core.score import score_event
+from hikara.core.types import Bundle, Event, EventKind, SwapTx, Victim
+from hikara.output.jsonl import JsonlSink
+from hikara.output.stdout import StdoutSink
 
 
 def _event() -> Event:

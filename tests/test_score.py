@@ -1,9 +1,9 @@
-"""tests for hakiri.core.score."""
+"""tests for hikara.core.score."""
 
 from __future__ import annotations
 
-from hakiri.core.score import CONFIDENCE_CEILING, score_event
-from hakiri.core.types import Bundle, Event, EventKind, SwapTx, Verdict, Victim
+from hikara.core.score import CONFIDENCE_CEILING, score_event
+from hikara.core.types import Bundle, Event, EventKind, SwapTx, Verdict, Victim
 
 
 def _bundle_event(kind: EventKind, **kwargs) -> Event:
