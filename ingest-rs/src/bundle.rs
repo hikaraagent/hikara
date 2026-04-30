@@ -1,14 +1,14 @@
 //! bundle reconstruction and classification.
 //!
 //! mirrors the python heuristic in `hakiri.core.classify`. the rust
-//! implementation is here because once mempool ingest moves to rust
+//! implementation is here because once geyser ingest moves to rust
 //! the classifier should run in the same process for latency.
 
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct SwapLeg {
-    pub tx_hash: String,
+    pub signature: String,
     pub tx_index: u32,
     pub sender: String,
     pub pool: String,
@@ -17,23 +17,23 @@ pub struct SwapLeg {
     pub amount_in: u128,
     pub amount_out: u128,
     #[serde(default)]
-    pub coinbase_transfer_wei: u128,
+    pub jito_tip_lamports: u64,
     #[serde(default)]
-    pub gas_used: u64,
+    pub compute_units: u64,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct Bundle {
-    pub block_number: u64,
+    pub slot: u64,
     pub searcher: String,
     pub legs: Vec<SwapLeg>,
-    pub coinbase_transfer_wei: u128,
+    pub jito_tip_lamports: u64,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct BundleClassification {
     pub bundles: Vec<Bundle>,
-    pub victim_hashes: Vec<String>,
+    pub victim_signatures: Vec<String>,
     pub rules: Vec<&'static str>,
 }
 
@@ -41,7 +41,7 @@ pub struct BundleClassification {
 ///
 /// matches the python rule SAND-01: same pool, same searcher front+back,
 /// opposite directions, with a third sender between them.
-pub fn classify_sandwich(legs: &[SwapLeg], block_number: u64) -> BundleClassification {
+pub fn classify_sandwich(legs: &[SwapLeg], slot: u64) -> BundleClassification {
     let mut legs: Vec<&SwapLeg> = legs.iter().collect();
     legs.sort_by_key(|l| l.tx_index);
 
@@ -53,7 +53,7 @@ pub fn classify_sandwich(legs: &[SwapLeg], block_number: u64) -> BundleClassific
     if n < 3 {
         return BundleClassification {
             bundles,
-            victim_hashes: victims,
+            victim_signatures: victims,
             rules: vec![],
         };
     }
@@ -80,12 +80,12 @@ pub fn classify_sandwich(legs: &[SwapLeg], block_number: u64) -> BundleClassific
 
                 if same_pool && same_searcher && opp_dir {
                     bundles.push(Bundle {
-                        block_number,
+                        slot,
                         searcher: a.sender.clone(),
                         legs: vec![a.clone(), c.clone()],
-                        coinbase_transfer_wei: a.coinbase_transfer_wei + c.coinbase_transfer_wei,
+                        jito_tip_lamports: a.jito_tip_lamports + c.jito_tip_lamports,
                     });
-                    victims.push(b.tx_hash.clone());
+                    victims.push(b.signature.clone());
                     used.extend([i, j, k]);
                     continue 'outer;
                 }
@@ -101,7 +101,7 @@ pub fn classify_sandwich(legs: &[SwapLeg], block_number: u64) -> BundleClassific
 
     BundleClassification {
         bundles,
-        victim_hashes: victims,
+        victim_signatures: victims,
         rules,
     }
 }
