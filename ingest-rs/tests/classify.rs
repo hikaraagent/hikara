@@ -2,26 +2,26 @@
 
 use hakiri_ingest::{classify_sandwich, SwapLeg};
 
-fn weth() -> String {
-    "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2".to_string()
+fn sol() -> String {
+    "So11111111111111111111111111111111111111112".to_string()
 }
 fn usdc() -> String {
-    "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48".to_string()
+    "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v".to_string()
 }
 fn pool() -> String {
-    "0x88e6A0c2dDD26FEEb64F039a2c41296FcB3f5640".to_string()
+    "58oQChx4yWmvKdwLLZzBi4ChoCc2fqCUWBkwMihLYQo2".to_string()
 }
 
 fn searcher() -> String {
-    "0xa69BabEF1cA67A37Ffaf7a485DfFF3382056e78C".to_string()
+    "JTOArByrMvDPfH8XgbQDbbYxWh5XEW1Bkau3jDXRcLg".to_string()
 }
 fn victim() -> String {
-    "0xCAFE8888888888888888888888888888888888AA".to_string()
+    "VicT1mw411111111111111111111111111111111111".to_string()
 }
 
 fn leg(idx: u32, sender: String, token_in: String, token_out: String) -> SwapLeg {
     SwapLeg {
-        tx_hash: format!("0x{:064x}", idx),
+        signature: format!("Sig{:061}", idx),
         tx_index: idx,
         sender,
         pool: pool(),
@@ -29,34 +29,34 @@ fn leg(idx: u32, sender: String, token_in: String, token_out: String) -> SwapLeg
         token_out,
         amount_in: 1,
         amount_out: 1,
-        coinbase_transfer_wei: 0,
-        gas_used: 0,
+        jito_tip_lamports: 0,
+        compute_units: 0,
     }
 }
 
 #[test]
 fn detects_classic_sandwich() {
     let legs = vec![
-        leg(0, searcher(), weth(), usdc()),
-        leg(1, victim(), weth(), usdc()),
-        leg(2, searcher(), usdc(), weth()),
+        leg(0, searcher(), sol(), usdc()),
+        leg(1, victim(), sol(), usdc()),
+        leg(2, searcher(), usdc(), sol()),
     ];
-    let result = classify_sandwich(&legs, 21_000_000);
+    let result = classify_sandwich(&legs, 287_000_000);
 
     assert_eq!(result.bundles.len(), 1);
-    assert_eq!(result.victim_hashes.len(), 1);
+    assert_eq!(result.victim_signatures.len(), 1);
     assert!(result.rules.contains(&"SAND-01"));
     assert_eq!(result.bundles[0].searcher, searcher());
 }
 
 #[test]
-fn ignores_non_sandwich_blocks() {
+fn ignores_non_sandwich_slots() {
     let legs = vec![
-        leg(0, searcher(), weth(), usdc()),
-        leg(1, victim(), weth(), usdc()),
-        leg(2, searcher(), weth(), usdc()),
+        leg(0, searcher(), sol(), usdc()),
+        leg(1, victim(), sol(), usdc()),
+        leg(2, searcher(), sol(), usdc()),
     ];
-    let result = classify_sandwich(&legs, 21_000_000);
+    let result = classify_sandwich(&legs, 287_000_000);
     assert!(result.bundles.is_empty());
     assert!(result.rules.is_empty());
 }
@@ -64,9 +64,9 @@ fn ignores_non_sandwich_blocks() {
 #[test]
 fn requires_three_legs_minimum() {
     let legs = vec![
-        leg(0, searcher(), weth(), usdc()),
-        leg(1, victim(), weth(), usdc()),
+        leg(0, searcher(), sol(), usdc()),
+        leg(1, victim(), sol(), usdc()),
     ];
-    let result = classify_sandwich(&legs, 21_000_000);
+    let result = classify_sandwich(&legs, 287_000_000);
     assert!(result.bundles.is_empty());
 }
