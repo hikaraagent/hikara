@@ -3,13 +3,13 @@ requires = ["hatchling>=1.18"]
 build-backend = "hatchling.build"
 
 [project]
-name = "hakiri"
-version = "0.2.0"
+name = "hikara"
+version = "0.3.0"
 description = "solana mev forensics agent. read-only. shows what got taken from you in the dark."
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.9"
-authors = [{ name = "hakiri" }]
+authors = [{ name = "hikara" }]
 keywords = ["solana", "mev", "sandwich", "forensics", "mempool", "jito", "raydium", "orca", "agent"]
 classifiers = [
   "Development Status :: 3 - Alpha",
@@ -49,15 +49,15 @@ dev = [
 ]
 
 [project.scripts]
-hakiri = "hakiri.cli:app"
+hikara = "hikara.cli:app"
 
 [project.urls]
-Homepage = "https://hakiri.xyz/"
-Source = "https://github.com/hakiriagent/hakiri"
-Issues = "https://github.com/hakiriagent/hakiri/issues"
+Homepage = "https://hikara.xyz/"
+Source = "https://github.com/hakiriagent/hikara"
+Issues = "https://github.com/hakiriagent/hikara/issues"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/hakiri"]
+packages = ["src/hikara"]
 
 [tool.ruff]
 line-length = 100

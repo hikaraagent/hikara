@@ -30,10 +30,10 @@ build:
 	cd ingest-rs && cargo build --release
 
 run:
-	hakiri scan
+	hikara scan
 
 demo:
-	hakiri demo investigate
+	hikara demo investigate
 
 clean:
 	rm -rf build dist *.egg-info .pytest_cache .ruff_cache .mypy_cache htmlcov coverage.xml
