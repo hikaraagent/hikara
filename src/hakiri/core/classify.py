@@ -1,10 +1,10 @@
-"""block-level mev classifier.
+"""slot-level mev classifier.
 
-input: a list of decoded swaps from one block, ordered by tx_index.
+input: a list of decoded swaps from one slot, ordered by tx_index.
 output: zero or more events. the same swap can appear in only one event.
 
-heuristics are intentionally simple and additive. each rule has a name
-that is referenced from docs/heuristics.md. when a rule fires, its name
+heuristics are intentionally simple and additive. each rule has an id
+that is referenced from docs/heuristics.md. when a rule fires, its id
 is appended to event.notes for traceability.
 
 this module is pure. no rpc, no clock, no io.
@@ -49,8 +49,8 @@ def _is_sandwich_pattern(a: SwapTx, b: SwapTx, c: SwapTx) -> bool:
     return same_pool and same_searcher and opposite_dirs and ordered
 
 
-def _detect_sandwiches(swaps: List[SwapTx], block_number: int) -> List[Event]:
-    """rule SAND-01: a → victim → c on same pool, same searcher, opposite directions."""
+def _detect_sandwiches(swaps: List[SwapTx], slot: int) -> List[Event]:
+    """rule SAND-01: a -> victim -> c on same pool, same searcher, opposite directions."""
     events: List[Event] = []
     n = len(swaps)
     if n < 3:
@@ -68,24 +68,26 @@ def _detect_sandwiches(swaps: List[SwapTx], block_number: int) -> List[Event]:
                     continue
                 if _is_sandwich_pattern(swaps[i], swaps[j], swaps[k]):
                     bundle = Bundle(
-                        block_number=block_number,
+                        slot=slot,
                         searcher=swaps[i].sender,
                         txs=[swaps[i], swaps[k]],
-                        coinbase_transfer_wei=(
-                            swaps[i].coinbase_transfer_wei
-                            + swaps[k].coinbase_transfer_wei
+                        jito_tip_lamports=(
+                            swaps[i].jito_tip_lamports
+                            + swaps[k].jito_tip_lamports
                         ),
-                        gas_used=swaps[i].gas_used + swaps[k].gas_used,
+                        compute_units=swaps[i].compute_units + swaps[k].compute_units,
                     )
-                    victim = Victim(tx_hash=swaps[j].tx_hash, sender=swaps[j].sender)
+                    victim = Victim(
+                        signature=swaps[j].signature, sender=swaps[j].sender
+                    )
                     events.append(
                         Event(
                             kind=EventKind.SANDWICH,
-                            block_number=block_number,
+                            slot=slot,
                             bundle=bundle,
                             victims=[victim],
                             searcher=swaps[i].sender,
-                            coinbase_transfer_wei=bundle.coinbase_transfer_wei,
+                            jito_tip_lamports=bundle.jito_tip_lamports,
                             notes=["SAND-01"],
                         )
                     )
@@ -97,7 +99,7 @@ def _detect_sandwiches(swaps: List[SwapTx], block_number: int) -> List[Event]:
     return events
 
 
-def _detect_backruns(swaps: List[SwapTx], block_number: int) -> List[Event]:
+def _detect_backruns(swaps: List[SwapTx], slot: int) -> List[Event]:
     """rule BACK-01: tx (n) by user shifts price, tx (n+1) by different sender same pool same direction = backrun arb candidate."""
     events: List[Event] = []
     for i in range(len(swaps) - 1):
@@ -111,29 +113,29 @@ def _detect_backruns(swaps: List[SwapTx], block_number: int) -> List[Event]:
         events.append(
             Event(
                 kind=EventKind.BACKRUN,
-                block_number=block_number,
+                slot=slot,
                 bundle=Bundle(
-                    block_number=block_number,
+                    slot=slot,
                     searcher=b.sender,
                     txs=[b],
-                    coinbase_transfer_wei=b.coinbase_transfer_wei,
-                    gas_used=b.gas_used,
+                    jito_tip_lamports=b.jito_tip_lamports,
+                    compute_units=b.compute_units,
                 ),
                 searcher=b.sender,
-                coinbase_transfer_wei=b.coinbase_transfer_wei,
+                jito_tip_lamports=b.jito_tip_lamports,
                 notes=["BACK-01"],
             )
         )
     return events
 
 
-def classify_block(swaps: List[SwapTx], block_number: int) -> Classification:
-    """run all heuristics over a block's swaps. returns events + which rules fired."""
+def classify_slot(swaps: List[SwapTx], slot: int) -> Classification:
+    """run all heuristics over a slot's swaps. returns events + which rules fired."""
     rules: List[str] = []
 
     swaps = sorted(swaps, key=lambda s: s.tx_index)
 
-    sandwiches = _detect_sandwiches(swaps, block_number)
+    sandwiches = _detect_sandwiches(swaps, slot)
     if sandwiches:
         rules.append("SAND-01")
 
@@ -141,12 +143,12 @@ def classify_block(swaps: List[SwapTx], block_number: int) -> Classification:
     for ev in sandwiches:
         if ev.bundle:
             for tx in ev.bundle.txs:
-                used_swaps.add(tx.tx_hash)
+                used_swaps.add(tx.signature)
         for v in ev.victims:
-            used_swaps.add(v.tx_hash)
+            used_swaps.add(v.signature)
 
-    remaining = [s for s in swaps if s.tx_hash not in used_swaps]
-    backruns = _detect_backruns(remaining, block_number)
+    remaining = [s for s in swaps if s.signature not in used_swaps]
+    backruns = _detect_backruns(remaining, slot)
     if backruns:
         rules.append("BACK-01")
 
@@ -160,3 +162,8 @@ def classify_block(swaps: List[SwapTx], block_number: int) -> Classification:
         verdict = Verdict.LIKELY
 
     return Classification(events=events, rules_fired=rules, verdict=verdict)
+
+
+# legacy alias for backward compatibility within the python codebase only.
+# external callers should use classify_slot directly.
+classify_block = classify_slot
