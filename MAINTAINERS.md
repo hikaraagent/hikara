@@ -6,21 +6,21 @@ active maintainers and their zones. all pull requests need at least one approval
 
 | handle           | zone                                          | timezone     |
 |------------------|-----------------------------------------------|--------------|
-| **hakiriagent**  | core, scoring, ci, docs, release coordination | utc          |
+| **hikaraagent**  | core, scoring, ci, docs, release coordination | utc          |
 | **0xnova**       | ingest-rs, mempool, builder feeds, traces     | utc+1        |
 | **mikrohash**    | classify, heuristics, ai filter               | utc+2        |
 | **luka**         | decode, output sinks, cli surface             | utc+1        |
 
 ## review policy
 
-- two-review minimum for changes to `src/hikara/core/`. one must be `@hakiriagent`.
+- two-review minimum for changes to `src/hikara/core/`. one must be `@hikaraagent`.
 - one review for changes to a single zone, by the zone owner.
 - changes that span zones get one review from each affected zone.
 - ci must be green on the head commit before merge.
 
 ## release coordination
 
-`@hakiriagent` cuts releases. cadence is best-effort, not calendar-driven. each release follows the format used in `CHANGELOG.md` and `docs/release-template.md`.
+`@hikaraagent` cuts releases. cadence is best-effort, not calendar-driven. each release follows the format used in `CHANGELOG.md` and `docs/release-template.md`.
 
 ## becoming a maintainer
 

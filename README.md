@@ -116,7 +116,7 @@ new rules ship behind a version, not a feature flag. the repo is the source of t
 requires python 3.9+ and rust stable.
 
 ```sh
-git clone https://github.com/hakiriagent/hikara.git
+git clone https://github.com/hikaraagent/hikara.git
 cd hikara
 
 # install python package + dev deps
@@ -194,7 +194,7 @@ hikara/
 
 | zone                    | language | maintainer    |
 |-------------------------|----------|---------------|
-| core, scoring, ci       | python   | @hakiriagent  |
+| core, scoring, ci       | python   | @hikaraagent  |
 | ingest-rs, geyser       | rust     | @0xnova       |
 | classify, heuristics    | python   | @mikrohash    |
 | decode, output, cli     | python   | @luka         |

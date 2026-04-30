@@ -1,6 +1,6 @@
 # hikara-ingest
 
-low-level ingest crate for [hikara](https://github.com/hakiriagent/hikara).
+low-level ingest crate for [hikara](https://github.com/hikaraagent/hikara).
 
 handles the hot paths the python core defers:
 

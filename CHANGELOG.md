@@ -24,7 +24,7 @@ if you installed v0.2.0 — uninstall and reinstall under the new name.
 
 ### kept
 
-- github repo url stays `hakiriagent/hikara` (account login unchanged, slug renamed)
+- github repo url stays `hikaraagent/hikara` (account login unchanged, slug renamed)
 - maintainer handles unchanged: hakiri (lead), 0xnova, mikrohash, luka
 - contributor zones in CODEOWNERS unchanged in scope, only paths updated
 - twitter @HakiriAgent stays active during transition; new @HikaraAgent will be set as the canonical handle when ready
@@ -132,8 +132,8 @@ read-only by design. no wallet, no signer, no executor. the chain changed; the p
 - rust crate `hikara-ingest`: pending-tx types, sandwich classifier, trace types
 - ci workflow on push and pr: python matrix (3.9 - 3.12) + rust stable
 
-[unreleased]: https://github.com/hakiriagent/hikara/compare/v0.3.0...HEAD
-[0.3.0]: https://github.com/hakiriagent/hikara/releases/tag/v0.3.0
-[0.2.0]: https://github.com/hakiriagent/hikara/releases/tag/v0.2.0
-[0.1.1]: https://github.com/hakiriagent/hikara/releases/tag/v0.1.1
-[0.1.0]: https://github.com/hakiriagent/hikara/releases/tag/v0.1.0
+[unreleased]: https://github.com/hikaraagent/hikara/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/hikaraagent/hikara/releases/tag/v0.3.0
+[0.2.0]: https://github.com/hikaraagent/hikara/releases/tag/v0.2.0
+[0.1.1]: https://github.com/hikaraagent/hikara/releases/tag/v0.1.1
+[0.1.0]: https://github.com/hikaraagent/hikara/releases/tag/v0.1.0

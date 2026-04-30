@@ -53,8 +53,8 @@ hikara = "hikara.cli:app"
 
 [project.urls]
 Homepage = "https://hikara.xyz/"
-Source = "https://github.com/hakiriagent/hikara"
-Issues = "https://github.com/hakiriagent/hikara/issues"
+Source = "https://github.com/hikaraagent/hikara"
+Issues = "https://github.com/hikaraagent/hikara/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/hikara"]

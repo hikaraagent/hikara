@@ -1,35 +1,35 @@
-*                                       @hakiriagent
+*                                       @hikaraagent
 
 # python core
-/src/hikara/__init__.py                 @hakiriagent
-/src/hikara/config.py                   @hakiriagent
-/src/hikara/cli.py                      @hakiriagent @luka
-/src/hikara/core/                       @hakiriagent @mikrohash
+/src/hikara/__init__.py                 @hikaraagent
+/src/hikara/config.py                   @hikaraagent
+/src/hikara/cli.py                      @hikaraagent @luka
+/src/hikara/core/                       @hikaraagent @mikrohash
 /src/hikara/decode/                     @luka
-/src/hikara/enrich/leader.py            @0xnova @hakiriagent
-/src/hikara/enrich/searcher.py          @mikrohash @hakiriagent
+/src/hikara/enrich/leader.py            @0xnova @hikaraagent
+/src/hikara/enrich/searcher.py          @mikrohash @hikaraagent
 /src/hikara/enrich/jito.py              @0xnova
 /src/hikara/ingest/                     @0xnova
 /src/hikara/output/                     @luka
-/src/hikara/demo/                       @luka @hakiriagent
-/src/hikara/ai/                         @mikrohash @hakiriagent
+/src/hikara/demo/                       @luka @hikaraagent
+/src/hikara/ai/                         @mikrohash @hikaraagent
 
 # rust crate
 /ingest-rs/                             @0xnova
 /ingest-rs/src/bundle.rs                @0xnova @mikrohash
 
 # tests
-/tests/                                 @hakiriagent
+/tests/                                 @hikaraagent
 /tests/test_classify.py                 @mikrohash
 /tests/test_decode.py                   @luka
 /tests/test_output.py                   @luka
 
 # docs and infra
-/.github/                               @hakiriagent
-/docs/                                  @hakiriagent
-/README.md                              @hakiriagent
-/CONTRIBUTING.md                        @hakiriagent
-/CHANGELOG.md                           @hakiriagent
-/ROADMAP.md                             @hakiriagent
-/MAINTAINERS.md                         @hakiriagent
-/SECURITY.md                            @hakiriagent
+/.github/                               @hikaraagent
+/docs/                                  @hikaraagent
+/README.md                              @hikaraagent
+/CONTRIBUTING.md                        @hikaraagent
+/CHANGELOG.md                           @hikaraagent
+/ROADMAP.md                             @hikaraagent
+/MAINTAINERS.md                         @hikaraagent
+/SECURITY.md                            @hikaraagent
