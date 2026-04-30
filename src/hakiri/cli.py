@@ -1,8 +1,8 @@
 """hakiri command-line interface.
 
 four command groups:
-  scan        run live scanner against configured rpc.
-  investigate dive into a single tx_hash or block.
+  scan        run live scanner against configured rpc / geyser.
+  investigate dive into a single signature or slot.
   demo        scripted offline demos.
   version     print version + build info.
 """
@@ -21,7 +21,7 @@ from hakiri.demo.scan import run_demo_scan
 app = typer.Typer(
     name="hakiri",
     add_completion=False,
-    help="ethereum mev forensics agent. read-only by design.",
+    help="solana mev forensics agent. read-only by design.",
     no_args_is_help=True,
 )
 
@@ -48,7 +48,7 @@ def _main(
         help="print version and exit.",
     ),
 ) -> None:
-    """ethereum mev forensics agent. read-only by design."""
+    """solana mev forensics agent. read-only by design."""
     _ = version
 
 
@@ -60,6 +60,7 @@ def version() -> None:
     console.print(f"hakiri {__version__}")
     console.print(f"  trace_mode: {settings.trace_mode}")
     console.print(f"  rpc:        {'set' if settings.has_rpc else 'unset'}")
+    console.print(f"  stream:     {'set' if settings.has_stream else 'unset'}")
     console.print(f"  ai:         {'set' if settings.has_ai else 'unset'}")
     console.print(f"  sink:       {settings.sink}")
 
@@ -67,29 +68,31 @@ def version() -> None:
 @app.command()
 def scan(
     once: bool = typer.Option(
-        False, "--once", help="exit after first block (smoke test)."
+        False, "--once", help="exit after first slot (smoke test)."
     ),
 ) -> None:
-    """run the live scanner. requires HAKIRI_WS_URL or HAKIRI_HTTP_URL."""
+    """run the live scanner. requires HAKIRI_RPC_HTTP_URL or a stream endpoint."""
     settings = load()
     console = Console()
-    if not settings.has_rpc:
+    if not settings.has_rpc and not settings.has_stream:
         console.print(
-            "[yellow]no rpc configured. set HAKIRI_WS_URL or HAKIRI_HTTP_URL.[/yellow]"
+            "[yellow]no rpc or stream configured. set HAKIRI_RPC_HTTP_URL "
+            "or HAKIRI_GEYSER_GRPC_URL.[/yellow]"
         )
         console.print("falling back to demo scan.")
         run_demo_scan()
         return
-    console.print("[yellow]live scan stub. v0.2 will wire ingest-rs.[/yellow]")
-    console.print(f"would connect to: {settings.ws_url or settings.http_url}")
+    console.print("[yellow]live scan stub. ingest-rs wiring lands in a future minor.[/yellow]")
+    target = settings.geyser_grpc_url or settings.rpc_http_url or settings.rpc_ws_url
+    console.print(f"would connect to: {target}")
     console.print(f"once={once}")
 
 
 @app.command()
 def investigate(
-    target: str = typer.Argument(..., help="tx hash or block number."),
+    target: str = typer.Argument(..., help="signature or slot number."),
 ) -> None:
-    """investigate a tx hash or block number."""
+    """investigate a signature or slot number."""
     settings = load()
     console = Console()
     if not settings.has_rpc:
@@ -103,22 +106,22 @@ def investigate(
 
 @demo_app.command("scan")
 def demo_scan() -> None:
-    """canned scan of a synthetic block. emits to stdout."""
+    """canned scan of a synthetic slot. emits to stdout."""
     run_demo_scan()
 
 
 @demo_app.command("investigate")
 def demo_investigate() -> None:
-    """walk the full pipeline on a synthetic sandwich block."""
+    """walk the full pipeline on a synthetic sandwich slot."""
     run_demo_investigate()
 
 
 @demo_app.command("replay")
 def demo_replay(
-    block_id: str = typer.Argument(..., help="fixture block id."),
+    slot_id: str = typer.Argument(..., help="fixture slot id."),
 ) -> None:
-    """replay a recorded block fixture."""
-    run_demo_replay(block_id)
+    """replay a recorded slot fixture."""
+    run_demo_replay(slot_id)
 
 
 if __name__ == "__main__":
