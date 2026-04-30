@@ -2,7 +2,7 @@
 
 <img src="assets/bannerhakiri.jpg" alt="hakiri" width="100%" />
 
-### ethereum mev forensics agent
+### solana mev forensics agent
 
 read-only by design. shows what got taken from you in the dark.
 
@@ -15,9 +15,9 @@ read-only by design. shows what got taken from you in the dark.
 [![Telegram](https://img.shields.io/badge/telegram-hakirieth-26A5E4.svg)](https://t.me/hakirieth)
 [![Website](https://img.shields.io/badge/site-hakiri.xyz-white.svg)](https://hakiri.xyz/)
 
-[![Ethereum](https://img.shields.io/badge/chain-ethereum-627EEA.svg)]()
-[![viem](https://img.shields.io/badge/decode-uniswap%20v2%2Fv3-ff007a.svg)]()
-[![Flashbots](https://img.shields.io/badge/relays-flashbots%20%2B%20ultrasound-black.svg)]()
+[![Solana](https://img.shields.io/badge/chain-solana-9945FF.svg)]()
+[![Raydium](https://img.shields.io/badge/decode-raydium%20%2B%20orca-14F195.svg)]()
+[![Jito](https://img.shields.io/badge/attribution-jito%20bundles-000000.svg)]()
 
 ---
 
@@ -35,9 +35,9 @@ read-only by design. shows what got taken from you in the dark.
 
 ## what it does
 
-- watches every block on ethereum mainnet, decodes the swap logs, reconstructs bundles
+- watches every slot on solana mainnet, decodes raydium and orca swaps, reconstructs jito bundles
 - classifies the events: sandwich, jit, backrun, liquidation, atomic arb
-- attributes builders (beaverbuild, titan, flashbots, rsync, builder0x69) and known searchers
+- attributes leaders (validators), known searchers, and jito tip transfers
 - emits a verdict per event with a confidence in [0.0, 0.95]. detector, not oracle
 
 no wallet. no signer. no executor. no trading. anyone forking to build a sniper does so in their own repo.
@@ -45,35 +45,35 @@ no wallet. no signer. no executor. no trading. anyone forking to build a sniper 
 ## how it works
 
 ```
-   pending mempool                  finalized blocks
-        │                                  │
-        ▼                                  ▼
-  ┌──────────────┐                  ┌──────────────┐
-  │ ingest-rs    │                  │ trace_block  │
-  │ ws subscribe │                  │ debug_trace  │
-  └──────┬───────┘                  └──────┬───────┘
-         │                                 │
-         └──────────────┬──────────────────┘
-                        ▼
-                ┌───────────────┐
-                │ decode  v2/v3 │   uniswap, sushi, balancer pools
-                └──────┬────────┘
-                       ▼
-                ┌──────────────┐
-                │ classify     │   SAND-01, BACK-01, JIT-01, ARB-01
-                └──────┬───────┘
-                       ▼
-                ┌──────────────┐
-                │ score        │   rule-based, capped at 0.95
-                └──────┬───────┘
-                       ▼
-                ┌──────────────┐
-                │ ai filter    │   optional. only reviews edge cases
-                └──────┬───────┘
-                       ▼
-                ┌──────────────┐
-                │ output sinks │   stdout · jsonl · webhook
-                └──────────────┘
+   geyser / shredstream             finalized slots
+          │                                  │
+          ▼                                  ▼
+    ┌──────────────┐                  ┌──────────────┐
+    │ ingest-rs    │                  │ getBlock     │
+    │ grpc stream  │                  │ getTransaction│
+    └──────┬───────┘                  └──────┬───────┘
+           │                                 │
+           └──────────────┬──────────────────┘
+                          ▼
+                  ┌───────────────┐
+                  │ decode        │   raydium amm v4, orca whirlpool, jupiter routes
+                  └──────┬────────┘
+                         ▼
+                  ┌──────────────┐
+                  │ classify     │   SAND-01, BACK-01, JIT-01, ARB-01
+                  └──────┬───────┘
+                         ▼
+                  ┌──────────────┐
+                  │ score        │   rule-based, capped at 0.95
+                  └──────┬───────┘
+                         ▼
+                  ┌──────────────┐
+                  │ ai filter    │   optional. only reviews edge cases
+                  └──────┬───────┘
+                         ▼
+                  ┌──────────────┐
+                  │ output sinks │   stdout · jsonl · webhook
+                  └──────────────┘
 ```
 
 every step is independent. you can plug in your own ingest, your own classifier, your own sink. the contract between layers is the `Event` dataclass in `src/hakiri/core/types.py`.
@@ -82,16 +82,18 @@ every step is independent. you can plug in your own ingest, your own classifier,
 
 | target                | status |
 |-----------------------|:------:|
-| ethereum mainnet      |   🟢   |
-| uniswap v2 swap logs  |   🟢   |
-| uniswap v3 swap logs  |   🟢   |
-| sushiswap v2 (alias)  |   🟢   |
-| flashbots relay       |   🟢   |
-| ultrasound relay      |   🟢   |
-| balancer v2 vault     |   🟡   |
-| curve pools           |   🟡   |
-| L2: base, arbitrum    |   ⚪   |
-| reth `mev` namespace  |   ⚪   |
+| solana mainnet        |   🟢   |
+| raydium amm v4        |   🟢   |
+| orca whirlpool        |   🟢   |
+| jito bundle attribution |  🟢   |
+| validator (leader) labels |  🟢  |
+| meteora dlmm          |   🟡   |
+| meteora amm           |   🟡   |
+| lifinity v2           |   🟡   |
+| jupiter v6 routes     |   🟡   |
+| pump.fun bonded swaps |   ⚪   |
+| raydium clmm          |   ⚪   |
+| phoenix clob          |   ⚪   |
 
 🟢 primary · 🟡 ready, low coverage · ⚪ stub or planned
 
@@ -101,12 +103,12 @@ each rule has an id used in `event.notes` so you can trace what fired.
 
 | id        | what it catches                                                | shipped in |
 |-----------|----------------------------------------------------------------|:----------:|
-| SAND-01   | classic sandwich: front + victim + back same pool, opp dirs    |   v0.1     |
-| BACK-01   | one-step backrun arb against a user swap                       |   v0.1     |
-| JIT-01    | just-in-time liquidity add+remove around a victim swap         |   v0.2     |
-| ARB-01    | atomic multi-hop arb across 3+ pools in a single tx            |   v0.2     |
-| LIQ-01    | aave/compound liquidation w/ priority manipulation             |   v0.3     |
-| ORACLE-01 | sandwich-style prep around oracle update tx                    |   v0.3     |
+| SAND-01   | classic sandwich: front + victim + back same pool, opp dirs    |   v0.2     |
+| BACK-01   | one-step backrun arb against a user swap                       |   v0.2     |
+| JIT-01    | just-in-time liquidity add+remove around a victim swap         |   v0.3     |
+| ARB-01    | atomic multi-hop arb across 3+ pools in a single tx            |   v0.3     |
+| LEAD-01   | leader collusion: same leader catches multiple bundles in N consecutive slots | v0.4 |
+| LIQ-01    | kamino/marginfi liquidation w/ priority manipulation           |   v0.4     |
 
 new rules ship behind a version, not a feature flag. the repo is the source of truth.
 
@@ -129,7 +131,7 @@ hakiri demo investigate
 
 # run the live scanner against your rpc
 cp .env.example .env
-$EDITOR .env   # set HAKIRI_WS_URL or HAKIRI_HTTP_URL
+$EDITOR .env   # set HAKIRI_RPC_HTTP_URL and / or HAKIRI_GEYSER_GRPC_URL
 hakiri scan
 ```
 
@@ -138,12 +140,13 @@ no rpc? `hakiri demo scan` shows the full pipeline against synthetic fixtures.
 ## cli reference
 
 ```sh
+hakiri --version                  # quick version check
 hakiri version                    # version + active config
-hakiri scan                       # live mempool + block scan
-hakiri scan --once                # one block then exit (smoke test)
-hakiri investigate <tx|block>     # walk the pipeline on a specific target
+hakiri scan                       # live slot + bundle scan
+hakiri scan --once                # one slot then exit (smoke test)
+hakiri investigate <sig|slot>     # walk the pipeline on a specific target
 
-hakiri demo scan                  # canned scan against a synthetic block
+hakiri demo scan                  # canned scan against a synthetic slot
 hakiri demo investigate           # full pipeline trace, prints every step
 hakiri demo replay <id>           # replay a recorded fixture
 ```
@@ -152,19 +155,19 @@ example output for `hakiri demo investigate`:
 
 ```
 ─────────────────── step 1. decoded swaps ────────────────────
-  block 21000000 idx 0  sender 0xa69BabE...  pool 0x88e6A0c2...  in 8000000000000000000  out 24000000000
-  block 21000000 idx 1  sender 0xCAFE8888...  pool 0x88e6A0c2...  in 2000000000000000000  out 5950000000
-  block 21000000 idx 2  sender 0xa69BabE...  pool 0x88e6A0c2...  in 24500000000  out 8300000000000000
+  slot 287000000 idx 0  sender JTOArByrMv...  pool 58oQChx4yW...  in 8_000_000_000  out 24_000_000_000
+  slot 287000000 idx 1  sender VicT1mw411...  pool 58oQChx4yW...  in 2_000_000_000  out 5_950_000_000
+  slot 287000000 idx 2  sender JTOArByrMv...  pool 58oQChx4yW...  in 24_500_000_000  out 8_300_000_000
 
 ─────────────────── step 2. classifier rules ─────────────────
   rules fired: ['SAND-01']
-  block verdict: likely
+  slot verdict: likely
   events found:  1
 
 ─────────────────── step 3. score per event ─────────────────
-  sandwich block 21000000
+  sandwich slot 287000000
     base[sandwich]=0.70
-    coinbase_transfer>0:+0.10
+    jito_tip>0:+0.10
     bundle.txs>=2:+0.05
     victims_present:+0.05
     -> verdict=confirmed conf=0.900
@@ -177,9 +180,9 @@ example output for `hakiri demo investigate`:
 hakiri/
 ├── src/hakiri/                    python package
 │   ├── core/                      types · classify · score
-│   ├── decode/                    uniswap v2/v3 + router labels
-│   ├── enrich/                    builder · searcher · coinbase transfer
-│   ├── ingest/                    rpc + mempool + trace stubs (rust later)
+│   ├── decode/                    raydium · orca · program ids
+│   ├── enrich/                    leader · jito tip · searcher
+│   ├── ingest/                    geyser + jito relay stubs (rust later)
 │   ├── output/                    stdout · jsonl · webhook
 │   ├── ai/                        optional rule reviewer
 │   ├── demo/                      offline scripted demos
@@ -193,29 +196,29 @@ hakiri/
 | zone                    | language | maintainer    |
 |-------------------------|----------|---------------|
 | core, scoring, ci       | python   | @hakiriagent  |
-| ingest-rs, mempool      | rust     | @0xnova       |
+| ingest-rs, geyser       | rust     | @0xnova       |
 | classify, heuristics    | python   | @mikrohash    |
-| decode, output          | python   | @luka         |
+| decode, output, cli     | python   | @luka         |
 
 ## roadmap
 
 | version | scope                                                                        | status  |
 |---------|------------------------------------------------------------------------------|:-------:|
-| v0.1    | sandwich + backrun rules. uniswap v2/v3 decode. demo + cli.                  | shipped |
-| v0.2    | rust ingest wired via pyo3. jit + atomic arb rules. fixture replay.          | now     |
-| v0.3    | liquidation + oracle rules. balancer + curve. base + arbitrum support.       | planned |
-| v0.4    | per-searcher leaderboard. per-builder coinbase share. weekly digest.         | planned |
-| v0.5    | reth `mev` namespace integration. low-latency local node mode.               | planned |
+| v0.1    | (eth-era) sandwich + backrun on uniswap v2/v3. archived, see CHANGELOG.       | archived |
+| v0.2    | chain pivot to solana. raydium + orca decode. SAND-01 + BACK-01 on sol. demo + cli. | shipped |
+| v0.3    | rust geyser ingest wired via pyo3. JIT-01 + ARB-01 rules. fixture replay.     | now     |
+| v0.4    | meteora + lifinity decoders. LEAD-01 leader collusion. LIQ-01 liquidation.    | planned |
+| v0.5    | per-searcher pnl leaderboard. per-leader bundle share. weekly digest.        | planned |
+| v0.6    | shredstream low-latency mode. pump.fun + phoenix decoders.                    | planned |
 
 ## contributing
 
 short version: ship code that passes ci, write a clear pr description, no llm-generated readmes.
 
-new searchers and builders are the easiest path in. open a PR against `src/hakiri/enrich/builder.py` or `src/hakiri/enrich/searcher.py` with on-chain evidence in the description.
+new searchers, leaders, and program ids are the easiest path in. open a PR against `src/hakiri/enrich/searcher.py`, `src/hakiri/enrich/leader.py`, or `src/hakiri/decode/programs.py` with on-chain evidence (three signatures + slot numbers) in the description.
 
 read [CONTRIBUTING.md](CONTRIBUTING.md) for the full guidelines.
 
 ## license
 
 [MIT](LICENSE). use it, fork it, ship better.
-
