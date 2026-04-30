@@ -1,6 +1,6 @@
 //! integration tests for the rust sandwich classifier. mirrors the python suite.
 
-use hakiri_ingest::{classify_sandwich, SwapLeg};
+use hikara_ingest::{classify_sandwich, SwapLeg};
 
 fn sol() -> String {
     "So11111111111111111111111111111111111111112".to_string()

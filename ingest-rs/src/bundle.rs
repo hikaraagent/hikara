@@ -1,6 +1,6 @@
 //! bundle reconstruction and classification.
 //!
-//! mirrors the python heuristic in `hakiri.core.classify`. the rust
+//! mirrors the python heuristic in `hikara.core.classify`. the rust
 //! implementation is here because once geyser ingest moves to rust
 //! the classifier should run in the same process for latency.
 

@@ -1,6 +1,6 @@
-//! hakiri-ingest
+//! hikara-ingest
 //!
-//! low-level ingest types and classifiers used by hakiri. kept minimal
+//! low-level ingest types and classifiers used by hikara. kept minimal
 //! and dependency-light. python core calls into this via pyo3 in a
 //! later release.
 //!

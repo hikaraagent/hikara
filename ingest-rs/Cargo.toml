@@ -1,17 +1,17 @@
 [package]
-name = "hakiri-ingest"
-version = "0.1.1"
+name = "hikara-ingest"
+version = "0.3.0"
 edition = "2021"
-authors = ["hakiri contributors"]
-description = "low-level ingest crate for the hakiri ethereum mev forensics agent"
+authors = ["hikara contributors"]
+description = "low-level ingest crate for the hikara solana mev forensics agent"
 license = "MIT"
-repository = "https://github.com/hakiriagent/hakiri"
+repository = "https://github.com/hakiriagent/hikara"
 readme = "README.md"
-keywords = ["ethereum", "mev", "mempool", "forensics"]
+keywords = ["solana", "mev", "mempool", "forensics"]
 categories = ["cryptography::cryptocurrencies"]
 
 [lib]
-name = "hakiri_ingest"
+name = "hikara_ingest"
 path = "src/lib.rs"
 
 [dependencies]
