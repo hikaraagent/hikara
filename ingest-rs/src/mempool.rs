@@ -1,42 +1,44 @@
-//! pending-tx subscriber types.
+//! shred / streamed-tx subscriber types.
 //!
-//! the actual websocket loop lives in the binary target. this module
-//! defines the wire shape we expect from `eth_subscribe` and
-//! `alchemy_pendingTransactions`.
+//! the actual websocket / grpc loop lives in the binary target. this
+//! module defines the wire shape we expect from yellowstone-grpc and
+//! jito-shredstream-proxy notifications.
 
 use serde::{Deserialize, Serialize};
 
-/// minimal pending tx as seen on the mempool feed. fields are optional
-/// because some providers omit them on early notifications.
+/// minimal solana transaction as seen on the geyser / shredstream feed.
+/// fields are optional because some providers omit them on early
+/// notifications (pre-execution shreds).
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
-pub struct PendingTx {
-    pub hash: String,
+pub struct StreamedTx {
+    pub signature: String,
     #[serde(default)]
-    pub from: Option<String>,
+    pub slot: Option<u64>,
     #[serde(default)]
-    pub to: Option<String>,
+    pub fee_payer: Option<String>,
     #[serde(default)]
-    pub gas_price: Option<String>,
+    pub compute_unit_price: Option<u64>,
     #[serde(default)]
-    pub max_fee_per_gas: Option<String>,
+    pub compute_units: Option<u64>,
     #[serde(default)]
-    pub max_priority_fee_per_gas: Option<String>,
+    pub message_b58: Option<String>,
     #[serde(default)]
-    pub input: Option<String>,
-    #[serde(default)]
-    pub value: Option<String>,
-    #[serde(default)]
-    pub nonce: Option<String>,
+    pub recent_blockhash: Option<String>,
 }
 
-impl PendingTx {
+impl StreamedTx {
     /// parse from a json string. returns None on malformed input.
     pub fn from_json(s: &str) -> Option<Self> {
         serde_json::from_str(s).ok()
     }
 
-    /// `true` when at least the hash and a sender are present.
+    /// `true` when at least the signature and a fee_payer are present.
     pub fn is_addressable(&self) -> bool {
-        !self.hash.is_empty() && self.from.is_some()
+        !self.signature.is_empty() && self.fee_payer.is_some()
     }
 }
+
+// alias kept for callers that imported PendingTx from v0.1.x. will be
+// removed in a future minor release.
+#[doc(hidden)]
+pub type PendingTx = StreamedTx;
